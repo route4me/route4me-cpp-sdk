@@ -1,8 +1,8 @@
-# Rout4me API C++ client
+# Route4Me API C++ client
 
 ## Pre-requisites
 
-Rout4me API C++ client depends on `libcurl` library, needed for client-side URL transfers. Before you can build the source, you need to install `libcurl`, e.g.: for Ubuntu it would be advisable to update your repositories and then proceed with
+Route4Me API C++ client depends on `libcurl` library, needed for client-side URL transfers. Before you can build the source, you need to install `libcurl`, e.g.: for Ubuntu it would be advisable to update your repositories and then proceed with
 
 ```bash
 sudo apt-get install libcurl4-openssl-dev
@@ -24,11 +24,11 @@ make
 
 This will create a library in lib/ and build examples from test/
 
-Then add `<Rout4me API C++ root>/lib/` to your library path and `<Rout4me API C++ root>/include/` to your include path.
+Then add `<Route4Me API C++ root>/lib/` to your library path and `<Route4Me API C++ root>/include/` to your include path.
 
 When linking, link against `route4me` (e.g.: g++ example.cpp -o example -lroute4me).
 
-Rout4me API C++ client comprises 2 core files:
+Route4Me API C++ client comprises 2 core files:
 
 * src/route4me.cpp - api calls/wrappers
 * include/route4me.h - defines and class interfaces
