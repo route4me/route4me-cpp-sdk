@@ -10,11 +10,11 @@ sudo apt-get install libcurl4-openssl-dev
 
 If you want to know a bit more about `libcurl`, you should go on the official website and read about interfaces that cURL implements: http://curl.haxx.se/
 
-Route4Me API C++ client uses `jsoncpp` library to manipulate with JSON; all needed source files are already inserted into the project of Rout4me API C++ client, and no additional actions are expected from the user.
+Route4Me API C++ client uses `jsoncpp` library to manipulate with JSON; all needed source files are already inserted into the project of Route4Me API C++ client, and no additional actions are expected from the user.
 
 ## Build
 
-To build Rout4me API C++ client as a standalone library
+To build Route4me API C++ client as a standalone library
 
 ```bash
 cd build
@@ -33,7 +33,7 @@ Route4Me API C++ client comprises 2 core files:
 * src/route4me.cpp - api calls/wrappers
 * include/route4me.h - defines and class interfaces
 
-and additional source files test/*.cpp containing exhaustive samples for each section of Rout4me API:
+and additional source files test/*.cpp containing exhaustive samples for each section of Route4Me API:
 
 ## Creating a Simple Route
 
