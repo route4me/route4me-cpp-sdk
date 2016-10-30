@@ -11,10 +11,6 @@
 #include <json/json.h>
 
 class CAddressArray;
-class User;
-class Activity;
-class AddressBookContact;
-class CArrayWrapper;
 ///////////////////////////////////////////////////////////////////////////////
 
 /** \brief Rout4me API C++ wrapper
@@ -404,44 +400,6 @@ public:
         TSP_TW_CR = 6,
         BBCVRP = 7
 	};
-};
-
-class CArrayWrapper {
-//private:
-public:
-    Json::Value m_list;
-public:
-    CArrayWrapper();
-    CArrayWrapper(const Json::Value& list);
-    void add_item(const Json::Value& value);
-};
-
-class CAddressBookContact {
-    friend class CRoute4Me;
-
-protected:
-    Json::Value m_list;
-public:
-    CAddressBookContact();
-
-    /** \brief Constructs a list of addresses by json array
-    * \param addr_list An array of addresses
-    */
-    CAddressBookContact(const Json::Value& addr_list);
-
-    /** \brief Append an address to the list by json object
-    * \param value An json object that holds address fields
-    * \return \c true if the address was successfully added, \c false if an error occurred.
-    */
-    bool add_contact(const Json::Value& value);
-};
-
-class User {
-
-};
-
-class Activity {
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////

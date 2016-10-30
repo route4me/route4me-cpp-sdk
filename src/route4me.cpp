@@ -783,7 +783,6 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
     chunk.memory = (char*) malloc(1);
     chunk.size = 0;
     std::string req = make_arg(m_curl, url, props); // prepare url with parameters
-    printf("URL: %s\n", req.c_str());
     curl_easy_reset(m_curl);
     curl_easy_getinfo(m_curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_setopt(m_curl, CURLOPT_URL, req.c_str());
@@ -915,22 +914,6 @@ int check_required(const Json::Value& v, const char *params[], int n)
 {
     for(int i = 0; i < n; i++) if(!v.isMember(params[i])) return i+1;
     return 0;
-}
-
-
-CArrayWrapper::CArrayWrapper() : m_list(Json::arrayValue)
-{}
-
-CArrayWrapper::CArrayWrapper(const Json::Value &list) :
-    m_list(list)
-{
-    if (!m_list.isArray())
-        m_list = Json::Value(Json::arrayValue);
-}
-
-void CArrayWrapper::add_item(const Json::Value &value)
-{
-    m_list.append(value);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
