@@ -83,6 +83,10 @@ public:
     int get_route_q(Json::Value& props);
     int get_route_q();
 
+    /** \brief Gets a status update on all
+    * optimization problems for a specific API key.
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int get_multiple_routes();
 
     /** \brief Gets a Route by ID.
@@ -97,39 +101,73 @@ public:
     */
     int get_route(Json::Value& props);
 
+    /** \brief Add address to specific route
+    * \param route id
+    * \param address as JSON object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int add_route_destinations(const char*, Json::Value&);
-    int remove_route_destination();
-    int move_destination_to_route();
 
-    //int add_multiple_addresses_to_route(const char* route_id, ...);
+    /** \brief Remove address from system
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int remove_address_from_route(const char* route_id, const char* destination_id);
-    int move_address_to_another_route(const char* from_route_id, const char* to_route_id);
 
-    int update_route(const char* route_id, const char* dest_id, const Json::Value& fields
-                     /*CArrayWrapper wrapper*/);
+    /** \brief Update route with JSON data
+    * \param route id
+    * \param destination id
+    * \param JSON object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int update_route(const char* route_id, const char* dest_id, const Json::Value& fields);
+
+    /** \brief Update route with JSON data
+    * \param route id
+    * \param JSON object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int update_route(const char *route_id, const Json::Value& value);
+
+    /** \brief Clone the route
+    * \param route id
+    * \param to - redirect to page or return JSON for "none"
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int duplicate_route(const char* route_id, const char* to = "none");
+
     /** \brief Delete a Route by ID.
     * \param route_id route ID
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int delete_route(const char *route_id);
 
-    int get_address(const char*, const char*);
-    int add_route_notes(const char*, const char*, const char*);
+    /** \brief Returns route destination details.
+    * \param route_id
+    * \param destination id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_address(const char* route_id, const char* destination_id);
 
-    int get_route_notes(const char*, const char*);
+    /** \brief Add route notes
+    * \param route_id
+    * \param destination id
+    * \param text notes
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int add_route_notes(const char* route_id, const char* destination_id, const char* notes);
+
+    /** \brief Get route notes
+    * \param route_id
+    * \param destination id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_route_notes(const char* route_id, const char* destination_id);
 
     /** \brief Set GPS point.
     * \param props api call parameters
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
-    int get_last_location();
     int set_gps(Json::Value& props);
-
-    int get_users();
-    int get_activity_feed();
-    int log_custom_activity();
 
     /** \brief Reoptimize the problem.
     * \param opt_id optimization problem ID
@@ -143,29 +181,160 @@ public:
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int run_optimization(const CAddressArray& addr, Json::Value& props);
-    int get_optimization(const char*, int, int);
-    int remove_optimization(const char*);
-    int remove_address_from_optimization(const char*, const char*);
 
+    /** \brief Returns optimization problem.
+    * \param states list of addresses for the optimization problem
+    * \param offset
+    * \param limit
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_optimization(const char* states, int offset, int limit);
+
+    /** \brief Removes optimization problem.
+    * \param opt_id - id of the problem
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int remove_optimization(const char* opt_id);
+
+    /** \brief Removes address from optimization problem.
+    * \param address - id of the address
+    * \param opt_id - id of the problem
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int remove_address_from_optimization(const char* address, const char* opt_id);
+
+    /** \brief Add contacts to address book
+    * \param props - contact data as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int add_address_book_contacts(Json::Value& props);
+
+    /** \brief Get contacts from address book
+    * \param text - search pattern
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int get_address_book_contacts_by_text(const char*);
-    int get_address_book_contacts(const char*);
+
+    /** \brief get all contacts from address book
+    * \param props - contact data as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_address_book_contacts(const char* text);
+
+    /** \brief get all contacts from address book
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int get_address_book_contacts();
-    int update_address_book_contacts(const char*, Json::Value& props);
-    int remove_address_book_contacts(const char*);
 
-    int add_avoidance_zone(const char*, Json::Value&);
+    /** \brief update contacts in address book
+    * \param text - search pattern
+    * \param props - new contact data as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int update_address_book_contacts(const char* text, Json::Value& props);
+
+    /** \brief Remove contacts from address book
+    * \param text - search pattern
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int remove_address_book_contacts(const char* text);
+
+    /** \brief add avoidance zone
+    * \param territory_id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int add_avoidance_zone(const char* territory_id, Json::Value&);
+
+    /** \brief get all avoidance zones
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int get_avoidance_zones();
-    int get_avoidance_zone(const char*);
-    int update_avoidance_zone(const char*, Json::Value&);
-    int remove_avoidance_zone(const char*);
 
+    /** \brief get avoidance zone
+    * \param territory_id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_avoidance_zone(const char* territory_id);
+
+    /** \brief update avoidance zone
+    * \param territory_id
+    * \param new data as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int update_avoidance_zone(const char* territory_id, Json::Value&);
+
+    /** \brief remove avoidance zone
+    * \param territory_id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int remove_avoidance_zone(const char* territory_id);
+
+    /** \brief add order
+    * \param new data as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int add_order(Json::Value&);
-    int add_order_to_route(const char*, Json::Value&, int);
-    int get_order(const char*);
+
+    /** \brief add order to route
+    * \param route_id
+    * \param new data as json object
+    * \param redirect
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int add_order_to_route(const char* route_id, Json::Value&, int redirect);
+
+    /** \brief get order by id
+    * \param order_id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_order(const char* order_id);
+
+    /** \brief get all orders
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int get_all_orders();
+
+    /** \brief remove order
+    * \param redirect
+    * \param request body as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int remove_order(int, Json::Value&);
+
+    /** \brief update order
+    * \param redirect
+    * \param request body as json object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int update_order(int, Json::Value&);
+
+    /** \brief get all activities
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_all_activities();
+
+    /** \brief get activities belonging to one team
+    * \param route id
+    * \param team
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_team_activities(const char* route_id, const char* team = "true");
+
+    /** \brief log custom activity
+    * \param route id
+    * \param activity type
+    * \param custom message
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int log_custom_activity(const char* route_id, const char* activity_type,
+                            const char* activity_message);
+
+    /** \brief get all users
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_users();
+
+
 public:
     enum ReqType
     {
@@ -194,7 +363,7 @@ public:
             duplicate_route_req[], delete_route_req[], add_address_req[], add_address_notes_req[],\
             get_address_book_contact_req[];
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
-    *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST;
+    *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
