@@ -8,10 +8,14 @@
 #define __cpproute4me_route4me__
 
 #include <string>
-#include <json/json.h>
+#include <vector>
+#include "json/json.h"
 
 class CAddressArray;
-
+class User;
+class Activity;
+class AddressBookContact;
+class CArrayWrapper;
 ///////////////////////////////////////////////////////////////////////////////
 
 /** \brief Rout4me API C++ wrapper
@@ -80,6 +84,8 @@ public:
     int get_route_q(Json::Value& props);
     int get_route_q();
 
+    int get_multiple_routes();
+
     /** \brief Gets a Route by ID.
     * \param route_id route ID
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
@@ -92,17 +98,39 @@ public:
     */
     int get_route(Json::Value& props);
 
+    int add_route_destinations(const char*, Json::Value&);
+    int remove_route_destination();
+    int move_destination_to_route();
+
+    //int add_multiple_addresses_to_route(const char* route_id, ...);
+    int remove_address_from_route(const char* route_id, const char* destination_id);
+    int move_address_to_another_route(const char* from_route_id, const char* to_route_id);
+
+    int update_route(const char* route_id, const char* dest_id, const Json::Value& fields
+                     /*CArrayWrapper wrapper*/);
+    int update_route(const char *route_id, const Json::Value& value);
+    int duplicate_route(const char* route_id, const char* to = "none");
     /** \brief Delete a Route by ID.
     * \param route_id route ID
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int delete_route(const char *route_id);
 
+    int get_address(const char*, const char*);
+    int add_route_notes(const char*, const char*, const char*);
+
+    int get_route_notes(const char*, const char*);
+
     /** \brief Set GPS point.
     * \param props api call parameters
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
+    int get_last_location();
     int set_gps(Json::Value& props);
+
+    int get_users();
+    int get_activity_feed();
+    int log_custom_activity();
 
     /** \brief Reoptimize the problem.
     * \param opt_id optimization problem ID
@@ -116,7 +144,29 @@ public:
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int run_optimization(const CAddressArray& addr, Json::Value& props);
+    int get_optimization(const char*, int, int);
+    int remove_optimization(const char*);
+    int remove_address_from_optimization(const char*, const char*);
 
+    int add_address_book_contacts(Json::Value& props);
+    int get_address_book_contacts_by_text(const char*);
+    int get_address_book_contacts(const char*);
+    int get_address_book_contacts();
+    int update_address_book_contacts(const char*, Json::Value& props);
+    int remove_address_book_contacts(const char*);
+
+    int add_avoidance_zone(const char*, Json::Value&);
+    int get_avoidance_zones();
+    int get_avoidance_zone(const char*);
+    int update_avoidance_zone(const char*, Json::Value&);
+    int remove_avoidance_zone(const char*);
+
+    int add_order(Json::Value&);
+    int add_order_to_route(const char*, Json::Value&, int);
+    int get_order(const char*);
+    int get_all_orders();
+    int remove_order(int, Json::Value&);
+    int update_order(int, Json::Value&);
 public:
     enum ReqType
     {
@@ -140,8 +190,12 @@ protected:
     bool request(CRoute4Me::ReqType method, const char *url, Json::Value& props, Json::Value& content);
 
 public:
-    static key2tp get_route_q_req[], set_gps_req[];
-    static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST;
+    static key2tp get_route_q_req[], set_gps_req[], get_route_address_req[],\
+            get_address_notes_req[], get__multiple_routes_req[], update_route_req[], update_route_data_req[], \
+            duplicate_route_req[], delete_route_req[], add_address_req[], add_address_notes_req[],\
+            get_address_book_contact_req[];
+    static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
+    *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
@@ -182,6 +236,44 @@ public:
         TSP_TW_CR = 6,
         BBCVRP = 7
 	};
+};
+
+class CArrayWrapper {
+//private:
+public:
+    Json::Value m_list;
+public:
+    CArrayWrapper();
+    CArrayWrapper(const Json::Value& list);
+    void add_item(const Json::Value& value);
+};
+
+class CAddressBookContact {
+    friend class CRoute4Me;
+
+protected:
+    Json::Value m_list;
+public:
+    CAddressBookContact();
+
+    /** \brief Constructs a list of addresses by json array
+    * \param addr_list An array of addresses
+    */
+    CAddressBookContact(const Json::Value& addr_list);
+
+    /** \brief Append an address to the list by json object
+    * \param value An json object that holds address fields
+    * \return \c true if the address was successfully added, \c false if an error occurred.
+    */
+    bool add_contact(const Json::Value& value);
+};
+
+class User {
+
+};
+
+class Activity {
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
