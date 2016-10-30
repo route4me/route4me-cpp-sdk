@@ -8,8 +8,7 @@
 #define __cpproute4me_route4me__
 
 #include <string>
-#include <vector>
-#include "json/json.h"
+#include <json/json.h>
 
 class CAddressArray;
 class User;
