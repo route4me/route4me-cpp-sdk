@@ -625,17 +625,9 @@ int CRoute4Me::reoptimize(const char *opt_id)
     props["api_key"] = m_key;
     props["optimization_problem_id"] = opt_id;
     props["reoptimize"] = 1;
-    if(!validate(props)) //nt CRoute4Me::get_route(Json::Value& props)
-    {
-        static const char *m[] = {"route_id"};
-        props["api_key"] = m_key;
-        if(!validate(props, CRoute4Me::get_route_q_req, sizeof(CRoute4Me::get_route_q_req)/sizeof(CRoute4Me::key2tp), m, sizeof(m)/sizeof(const char*)))
-            return m_err_code;
-        Json::Value null;
-        request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    if(!validate(props)) {
         return m_err_code;
     }
-        return m_err_code;
     Json::Value null;
     request(CRoute4Me::REQ_PUT, CRoute4Me::R4_API_HOST, props, null);
     return m_err_code;
