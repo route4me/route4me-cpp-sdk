@@ -18,7 +18,6 @@ The API is RESTful, which means that it’s web based and can be accessed by oth
 The API/SDK should be used to automate the route planning process, or to generate many routes with minimal manual intervention
 
 
-
 ### Do optimized routes automatically appear inside my Route4Me account?
 Every Route4Me SDK instance needs a unique API key. The API key can be retrieved inside your Route4Me.com account, inside the Settings tab called API. When a route is planned, it appears inside the corresponding Route4Me account. Because Route4Me web and mobile accounts are synchronized, the routes will appear in both environments at the same time.
 
