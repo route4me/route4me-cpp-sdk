@@ -1,3 +1,4 @@
+
 /**
  *
  * Rout4me API C++ client
@@ -16,11 +17,18 @@ const char *CRoute4Me::R4_API_HOST = "http://www.route4me.com/api.v4/optimizatio
 const char *CRoute4Me::R4_SHOW_ROUTE_HOST = "https://www.route4me.com/route4me.php";
 const char *CRoute4Me::R4_ROUTE_HOST = "https://www.route4me.com/api.v4/route.php";
 const char *CRoute4Me::R4_SET_GPS_HOST = "https://www.route4me.com/track/set.php";
+const char *CRoute4Me::R4_ADDRESS_HOST = "https://www.route4me.com/api.v4/address.php";
+const char *CRoute4Me::R4_DUPLICATE_ROUTE_HOST = "https://www.route4me.com/actions/duplicate_route.php";
+const char *CRoute4Me::R4_ADD_ROUTE_NOTES = "https://www.route4me.com/actions/addRouteNotes.php";
+const char *CRoute4Me::R4_ADDRESS_BOOK = "https://www.route4me.com/api.v4/address_book.php";
+const char *CRoute4Me::R4_AVOIDANCE_HOST = "https://www.route4me.com/api.v4/avoidance.php";
+const char *CRoute4Me::R4_ORDER_HOST = "https://www.route4me.com/api.v4/order.php";
+const char *CRoute4Me::R4_ACTIVITIES = "https://www.route4me.com/api/get_activities.php";
+const char *CRoute4Me::R4_USERS = "https://www.route4me.com/api/member/view_users.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
 const char *CRoute4Me::Trucking = "Trucking";
-
 const char *CRoute4Me::MI = "mi";
 const char *CRoute4Me::KM = "km";
 
@@ -70,6 +78,66 @@ CRoute4Me::key2tp CRoute4Me::set_gps_req[] = {
     {"device_timestamp", Json::stringValue}
 };
 
+CRoute4Me::key2tp CRoute4Me::get_route_address_req[] = {
+
+    {"route_id", Json::stringValue},
+    {"route_destination_id", Json::stringValue},
+    {"notes", Json::booleanValue}
+
+};
+
+CRoute4Me::key2tp CRoute4Me::get_address_notes_req[] = {
+    {"route_id", Json::stringValue},
+    {"address_id", Json::stringValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::get__multiple_routes_req[] = {
+    {"state", Json::uintValue},
+    {"limit", Json::uintValue},
+    {"offset", Json::uintValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::get_address_book_contact_req[] = {
+    {"address_id", Json::stringValue},
+    {"limit", Json::uintValue},
+    {"offset", Json::uintValue},
+    {"start", Json::uintValue},
+    {"query", Json::stringValue},
+    {"fields", Json::stringValue},
+    {"display", Json::stringValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::update_route_req[] = {
+    {"route_id", Json::stringValue},
+    {"route_destination_id", Json::stringValue}
+  //  {"custom_fields", Json::arrayValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::update_route_data_req[] = {
+    {"route_id", Json::stringValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::duplicate_route_req[] = {
+    {"route_id", Json::stringValue},
+    {"to", Json::stringValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::delete_route_req[] = {
+    {"route_id", Json::stringValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::add_address_notes_req[] = {
+      {"route_id", Json::stringValue},
+      {"address_id", Json::stringValue},
+      {"dev_lat", Json::uintValue},
+      {"dev_lng", Json::uintValue},
+      {"device_type", Json::stringValue}
+};
+
+CRoute4Me::key2tp CRoute4Me::add_address_req[] = {
+    {"route_id", Json::stringValue},
+    {"route_destination_id", Json::stringValue}
+};
 ///////////////////////////////////////////////////////////////////////////////
 // Construction
 
@@ -105,6 +173,20 @@ int CRoute4Me::get_route_q(Json::Value& props)
     return m_err_code;
 }
 
+int CRoute4Me::get_multiple_routes()
+{
+    static const char* m[] = {"limit", "offset", "api_key"};
+    Json::Value props(Json::objectValue);
+    props["limit"] = 10;
+    props["offset"] = 0;
+    props["api_key"] = m_key;
+    if(!validate(props, CRoute4Me::get__multiple_routes_req, sizeof(CRoute4Me::get__multiple_routes_req)/sizeof(CRoute4Me::key2tp)))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::get_route_by_id(const char *route_id)
 {
     Json::Value props(Json::objectValue);
@@ -116,10 +198,59 @@ int CRoute4Me::get_route(Json::Value& props)
 {
     static const char *m[] = {"route_id"};
     props["api_key"] = m_key;
-    if(!validate(props, CRoute4Me::get_route_q_req, sizeof(CRoute4Me::get_route_q_req)/sizeof(CRoute4Me::key2tp), m, sizeof(m)/sizeof(const char*)))
+    if(!validate(props, CRoute4Me::get_route_q_req, sizeof(CRoute4Me::get_route_q_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
         return m_err_code;
     Json::Value null;
     request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::update_route(const char* route_id, const char* dest_id, const Json::Value& fields)
+{
+    static const char *m[] = {"api_key", "route_id", "route_destination_id"};
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["route_destination_id"] = dest_id;
+
+    if(!validate(props, CRoute4Me::update_route_req,
+                 sizeof(CRoute4Me::update_route_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
+        return m_err_code;
+    Json::Value body(fields);
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ROUTE_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::update_route(const char* route_id, const Json::Value& input_data)
+{
+    static const char *m[] = {"api_key", "route_id"};
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+
+    if(!validate(props, CRoute4Me::update_route_data_req,
+                 sizeof(CRoute4Me::update_route_data_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
+        return m_err_code;
+    Json::Value body(input_data);
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ROUTE_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::duplicate_route(const char *route_id, const char* to)
+{
+    static const char *m[] = {"api_key", "route_id", "to"};
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["to"] = to;
+    if(!validate(props, CRoute4Me::duplicate_route_req, sizeof(CRoute4Me::duplicate_route_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_DUPLICATE_ROUTE_HOST, props, null);
     return m_err_code;
 }
 
@@ -135,6 +266,144 @@ int CRoute4Me::delete_route(const char *route_id)
     return m_err_code;
 }
 
+int CRoute4Me::add_route_destinations(const char* route_id, Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+
+    if (!validate(props))
+        return m_err_code;
+
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ROUTE_HOST, props, body);
+
+    return m_err_code;
+}
+
+int CRoute4Me::remove_address_from_route(const char* route_id, const char* route_destination_id)
+{
+    Json::Value props(Json::objectValue);
+
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["route_destination_id"] = route_destination_id;
+
+   if (!validate(props))
+       return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_ADDRESS_HOST, props, null);
+    return m_err_code;
+
+}
+
+int CRoute4Me::add_address_book_contacts(Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;   
+    if (!validate(props))
+        return m_err_code;
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_ADDRESS_BOOK, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_address_book_contacts_by_text(const char* searchText)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["limit"] = 10;
+    props["offset"] = 0;
+    props["query"] = searchText;
+    if(!validate(props))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_BOOK, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_address_book_contacts(const char * address_id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["address_id"] = address_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_BOOK, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_address_book_contacts()
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["limit"] = 10;
+    props["offset"] = 0;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_BOOK, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::update_address_book_contacts(const char* address_id, Json::Value &body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["address_id"] = address_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_BOOK, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::remove_address_book_contacts(const char * address_id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["address_id"] = address_id;
+    if (!validate(props))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_ADDRESS_BOOK, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::add_route_notes(const char* route_id, const char* address_id, const char* input_data)
+{
+    static const char *m[] = {"route_id", "address_id", "dev_lat", "dev_lng", "device_type"};
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["address_id"] = address_id;
+    props["dev_lat"] = 0;
+    props["dev_lng"] = 1;
+    props["device_type"] = "iphone";
+    if(!validate(props, CRoute4Me::add_address_notes_req, sizeof(CRoute4Me::add_address_notes_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
+        return m_err_code;
+    Json::Value body(input_data);
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_ADD_ROUTE_NOTES, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_route_notes(const char* route_id, const char* route_destination_id)
+{
+    Json::Value props(Json::objectValue);
+    static const char *m[] = {"route_id", "route_destination_id"};
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["route_destination_id"] = route_destination_id;
+    if(!validate(props, CRoute4Me::get_route_address_req, sizeof(CRoute4Me::get_route_address_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_HOST, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::set_gps(Json::Value& props)
 {
     static const char *m[] = {"format", "member_id", "route_id", "course", "speed", "lat", "lng", "device_type", "device_guid"};
@@ -143,6 +412,145 @@ int CRoute4Me::set_gps(Json::Value& props)
         return m_err_code;
     Json::Value null;
     request(CRoute4Me::REQ_GET, CRoute4Me::R4_SET_GPS_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::add_avoidance_zone(const char * territory_id, Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_AVOIDANCE_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_avoidance_zone(const char * territory_id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_AVOIDANCE_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_avoidance_zones()
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_AVOIDANCE_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::update_avoidance_zone(const char * territory_id, Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_AVOIDANCE_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::remove_avoidance_zone(const char * territory_id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_AVOIDANCE_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::add_order(Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_ORDER_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::add_order_to_route(const char* route_id, Json::Value& body, int redirect)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["redirect"] = redirect;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_ORDER_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_order(const char * order_id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["order_id"] = order_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ORDER_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_all_orders()
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ORDER_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::remove_order(int redirect, Json::Value& order_ids)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["redirect"] = redirect;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value body;
+    body["order_ids"] = order_ids;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_ORDER_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::update_order(int redirect, Json::Value &body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["redirect"] = redirect;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_ORDER_HOST, props, body);
     return m_err_code;
 }
 
@@ -169,16 +577,115 @@ int CRoute4Me::run_optimization(const CAddressArray& addr, Json::Value& content)
     return m_err_code;
 }
 
+int CRoute4Me::get_optimization(const char* states, int limit, int offset)
+{
+    Json::Value props;
+    props["api_key"] = m_key;
+    props["state"] = states;
+    props["limit"] = limit;
+    props["offset"] = offset;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_API_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::remove_optimization(const char * optimization_id)
+{
+    Json::Value props;
+    props["api_key"] = m_key;
+    props["optimization_problem_id"] = optimization_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_API_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::remove_address_from_optimization(const char* address_id, const char * optimization_id)
+{
+    Json::Value props;
+    props["api_key"] = m_key;
+    props["optimization_problem_id"] = optimization_id;
+    props["route_destination_id"] = address_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_API_HOST, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::reoptimize(const char *opt_id)
 {
     Json::Value props;
     props["api_key"] = m_key;
     props["optimization_problem_id"] = opt_id;
     props["reoptimize"] = 1;
-    if(!validate(props))
+    if(!validate(props)) {
         return m_err_code;
+    }
     Json::Value null;
     request(CRoute4Me::REQ_PUT, CRoute4Me::R4_API_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_all_activities()
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["offset"] = 10;
+    props["limit"] = 0;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ACTIVITIES, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_team_activities(const char *route_id, const char *team)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["team"] = team;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ACTIVITIES, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::log_custom_activity(const char *route_id, const char *activity_type,
+                                   const char *activity_message)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value body(Json::objectValue);
+    body["activity_type"] = activity_type;
+    body["activity_message"] = activity_message;
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_ACTIVITIES, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_users()
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_USERS, props, null);
     return m_err_code;
 }
 
@@ -284,9 +791,11 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
         //    break;
         case REQ_DELETE:
             curl_easy_setopt(m_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+            curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, payload.c_str());
             break;
         case REQ_PUT:
             curl_easy_setopt(m_curl, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, payload.c_str());
             break;
         case REQ_POST:
             curl_easy_setopt(m_curl, CURLOPT_POST, 1L);
@@ -421,4 +930,18 @@ bool CAddressArray::add_address(const Json::Value& value)
     return valid;
 }
 
+int CRoute4Me::get_address(const char* route_id, const char* dest_id)
+{
+    static const char *m[] = {"api_key", "route_id", "route_destination_id"};
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["route_destination_id"] = dest_id;
+    if(!validate(props, CRoute4Me::get_route_address_req, sizeof(CRoute4Me::get_route_address_req)/sizeof(CRoute4Me::key2tp),
+                 m, sizeof(m)/sizeof(const char*)))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    return m_err_code;
+}
 ///////////////////////////////////////////////////////////////////////////////
