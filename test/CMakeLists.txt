@@ -4,6 +4,9 @@ TARGET_LINK_LIBRARIES(RouteManifest route4me)
 ADD_EXECUTABLE(GetRoute GetRoute.cpp)
 TARGET_LINK_LIBRARIES(GetRoute route4me)
 
+ADD_EXECUTABLE(GetAllRoutes GetMultipleRoutes.cpp)
+TARGET_LINK_LIBRARIES(GetAllRoutes route4me)
+
 ADD_EXECUTABLE(Activities Activities.cpp)
 TARGET_LINK_LIBRARIES(Activities route4me)
 
