@@ -10,6 +10,9 @@ TARGET_LINK_LIBRARIES(GetAllRoutes route4me)
 ADD_EXECUTABLE(Activities Activities.cpp)
 TARGET_LINK_LIBRARIES(Activities route4me)
 
+ADD_EXECUTABLE(Zones AvoidanceZones.cpp)
+TARGET_LINK_LIBRARIES(Zones route4me)
+
 ADD_EXECUTABLE(Orders Orders.cpp)
 TARGET_LINK_LIBRARIES(Orders route4me)
 
