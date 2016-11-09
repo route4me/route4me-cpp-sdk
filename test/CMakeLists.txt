@@ -13,6 +13,9 @@ TARGET_LINK_LIBRARIES(RouteDestinations route4me)
 ADD_EXECUTABLE(GetAllRoutes GetMultipleRoutes.cpp)
 TARGET_LINK_LIBRARIES(GetAllRoutes route4me)
 
+ADD_EXECUTABLE(AddressBook AddressBook.cpp)
+TARGET_LINK_LIBRARIES(AddressBook route4me)
+
 ADD_EXECUTABLE(Activities Activities.cpp)
 TARGET_LINK_LIBRARIES(Activities route4me)
 
