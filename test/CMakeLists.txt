@@ -19,6 +19,9 @@ TARGET_LINK_LIBRARIES(AddressBook route4me)
 ADD_EXECUTABLE(Notes Notes.cpp)
 TARGET_LINK_LIBRARIES(Notes route4me)
 
+ADD_EXECUTABLE(Users Users.cpp)
+TARGET_LINK_LIBRARIES(Users route4me)
+
 ADD_EXECUTABLE(Activities Activities.cpp)
 TARGET_LINK_LIBRARIES(Activities route4me)
 
