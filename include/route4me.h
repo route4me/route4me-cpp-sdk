@@ -265,6 +265,31 @@ public:
     */
     int remove_avoidance_zone(const char* territory_id);
 
+    /** \brief create a territory
+    * \param territory_id
+    * \param data as JSON object
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int add_territory(const char* territory_id, Json::Value& data);
+
+    /** \brief get a territory
+    * \param territory_id
+    * \param int addresses - if 1 then addresses will be included in response
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_territory(const char* territory_id);
+
+    /** \brief get all territories
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_all_territories();
+
+    /** \brief remove a territory
+    * \param territory_id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int remove_territory(const char* territory_id);
+
     /** \brief add order
     * \param new data as json object
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
@@ -277,7 +302,7 @@ public:
     * \param redirect
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
-    int add_order_to_route(const char* route_id, Json::Value&, int redirect);
+    int add_order_to_route(const char* route_id, Json::Value&, int redirect = 0);
 
     /** \brief get order by id
     * \param order_id
@@ -359,7 +384,8 @@ public:
             duplicate_route_req[], delete_route_req[], add_address_req[], add_address_notes_req[],\
             get_address_book_contact_req[];
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
-    *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS;
+    *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
+    *R4_TERRITORY_HOST;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid

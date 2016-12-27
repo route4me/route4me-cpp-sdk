@@ -25,6 +25,7 @@ const char *CRoute4Me::R4_AVOIDANCE_HOST = "https://www.route4me.com/api.v4/avoi
 const char *CRoute4Me::R4_ORDER_HOST = "https://www.route4me.com/api.v4/order.php";
 const char *CRoute4Me::R4_ACTIVITIES = "https://www.route4me.com/api/get_activities.php";
 const char *CRoute4Me::R4_USERS = "https://www.route4me.com/api/member/view_users.php";
+const char *CRoute4Me::R4_TERRITORY_HOST = "https://route4me.com/api.v4/territory.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -480,6 +481,63 @@ int CRoute4Me::remove_avoidance_zone(const char * territory_id)
     return m_err_code;
 }
 
+int CRoute4Me::add_territory(const char * territory_id, Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_TERRITORY_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_territory(const char * territory_id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_TERRITORY_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_all_territories() {
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_TERRITORY_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::remove_territory(const char* territory_id) {
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["territory_id"] = territory_id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    Json::Value null;
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_TERRITORY_HOST, props, null);
+    return m_err_code;
+}
+
+
 int CRoute4Me::add_order(Json::Value& body)
 {
     Json::Value props(Json::objectValue);
@@ -496,10 +554,12 @@ int CRoute4Me::add_order_to_route(const char* route_id, Json::Value& body, int r
     Json::Value props(Json::objectValue);
     props["api_key"] = m_key;
     props["redirect"] = redirect;
+    props["route_id"] = route_id;
+    props["redirect"] = redirect;
     if (!validate(props)) {
         return m_err_code;
     }
-    request(CRoute4Me::REQ_POST, CRoute4Me::R4_ORDER_HOST, props, body);
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ROUTE_HOST, props, body);
     return m_err_code;
 }
 
@@ -598,6 +658,7 @@ int CRoute4Me::remove_optimization(const char * optimization_id)
     props["api_key"] = m_key;
     props["optimization_problem_id"] = optimization_id;
     if (!validate(props)) {
+
         return m_err_code;
     }
     Json::Value null;

@@ -60,3 +60,8 @@ TARGET_LINK_LIBRARIES(ReOptimization route4me)
 
 ADD_EXECUTABLE(OptimizeAndReoptimize OptimizeAndReoptimize.cpp)
 TARGET_LINK_LIBRARIES(OptimizeAndReoptimize route4me)
+
+ADD_EXECUTABLE(Territory Territory.cpp)
+TARGET_LINK_LIBRARIES(Territory route4me)
+
+
