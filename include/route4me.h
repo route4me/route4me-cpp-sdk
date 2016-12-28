@@ -329,6 +329,20 @@ public:
     */
     int update_order(int, Json::Value&);
 
+    /** \brief get orders inserted on specified date
+    * \param redirect
+    * \param day added - string in format YYMMDD
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_orders(int, const char*);
+
+    /** \brief get orders scheduled for specified date
+    * \param redirect
+    * \param day scheduled - string in format YYMMDD
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_scheduled_orders(int, const char*);
+
     /** \brief get all activities
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
