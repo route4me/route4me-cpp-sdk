@@ -614,6 +614,34 @@ int CRoute4Me::update_order(int redirect, Json::Value &body)
     return m_err_code;
 }
 
+int CRoute4Me::get_orders(int redirect, const char *date)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["redirect"] = redirect;
+    props["day_added_YYMMDD"] = date;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ORDER_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_scheduled_orders(int redirect, const char *date)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["redirect"] = redirect;
+    props["scheduled_for_YYMMDD"] = date;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ORDER_HOST, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::run_optimization(const CAddressArray& addr, Json::Value& content)
 {
     if(!validate(content))
