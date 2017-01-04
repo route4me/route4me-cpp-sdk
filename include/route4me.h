@@ -351,6 +351,14 @@ public:
     */
     int get_custom_orders(const char* fields, int offset, int limit);
 
+    /** \brief get orders which contain specified text in any field
+    * \param query - text to search for in fields
+    * \param offset
+    * \param limit
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_orders_query(const char* fields, int offset, int limit);
+
     /** \brief get all activities
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */

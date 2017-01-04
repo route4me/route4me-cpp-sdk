@@ -28,6 +28,9 @@ TARGET_LINK_LIBRARIES(GetOrders route4me)
 ADD_EXECUTABLE(GetCustomOrders GetCustomOrders.cpp)
 TARGET_LINK_LIBRARIES(GetCustomOrders route4me)
 
+ADD_EXECUTABLE(GetOrdersQuery GetOrdersQuery.cpp)
+TARGET_LINK_LIBRARIES(GetOrdersQuery route4me)
+
 ADD_EXECUTABLE(Activities Activities.cpp)
 TARGET_LINK_LIBRARIES(Activities route4me)
 
