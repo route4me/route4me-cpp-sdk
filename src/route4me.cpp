@@ -642,6 +642,36 @@ int CRoute4Me::get_scheduled_orders(int redirect, const char *date)
     return m_err_code;
 }
 
+int CRoute4Me::get_custom_orders(const char *fields, int offset, int limit)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["fields"] = fields;
+    props["offset"] = offset;
+    props["limit"] = limit;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ORDER_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_orders_query(const char *query, int offset, int limit)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["query"] =  query;
+    props["offset"] = offset;
+    props["limit"] = limit;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ORDER_HOST, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::run_optimization(const CAddressArray& addr, Json::Value& content)
 {
     if(!validate(content))
