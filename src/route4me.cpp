@@ -267,6 +267,45 @@ int CRoute4Me::delete_route(const char *route_id)
     return m_err_code;
 }
 
+int CRoute4Me::get_route_path_points(const char *route_id, const char *route_path_output)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["route_path_output"] = route_path_output;
+    if(!validate(props))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_route_directions(const char *route_id, int directions)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["directions"] = directions;
+    if(!validate(props))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_route_query(const char *route_id, const char *query)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["query"] = query;
+    if(!validate(props))
+        return m_err_code;
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::add_route_destinations(const char* route_id, Json::Value& body)
 {
     Json::Value props(Json::objectValue);

@@ -97,6 +97,27 @@ public:
     */
     int get_route(Json::Value& props);
 
+    /** \brief Gets routes by path points
+    * \param route id
+    * \param route_path_output
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_route_path_points(const char* route_id, const char* route_path_output);
+
+    /** \brief Gets routes by directions
+    * \param route id
+    * \param directions - 1 or 0
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_route_directions(const char* route_id, int directions);
+
+    /** \brief Gets routes by query
+    * \param route id
+    * \param query - text pattern
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_route_query(const char* route_id, const char* query);
+
     /** \brief Add address to specific route
     * \param route id
     * \param address as JSON object
