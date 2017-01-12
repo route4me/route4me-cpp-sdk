@@ -734,7 +734,20 @@ int CRoute4Me::run_optimization(const CAddressArray& addr, Json::Value& content)
     return m_err_code;
 }
 
-int CRoute4Me::get_optimization(const char* states, int limit, int offset)
+int CRoute4Me::get_optimization(const char* optimization_problem_id)
+{
+    Json::Value props;
+    props["api_key"] = m_key;
+    props["optimization_problem_id"] = optimization_problem_id;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_API_HOST, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_optimizations(const char* states, int limit, int offset)
 {
     Json::Value props;
     props["api_key"] = m_key;
@@ -749,17 +762,16 @@ int CRoute4Me::get_optimization(const char* states, int limit, int offset)
     return m_err_code;
 }
 
-int CRoute4Me::remove_optimization(const char * optimization_id)
+int CRoute4Me::remove_optimization(const Json::Value& fields)
 {
     Json::Value props;
     props["api_key"] = m_key;
-    props["optimization_problem_id"] = optimization_id;
     if (!validate(props)) {
 
         return m_err_code;
     }
-    Json::Value null;
-    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_API_HOST, props, null);
+    Json::Value body(fields);
+    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_API_HOST, props, body);
     return m_err_code;
 }
 

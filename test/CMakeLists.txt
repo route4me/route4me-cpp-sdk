@@ -85,6 +85,15 @@ TARGET_LINK_LIBRARIES(MultipleDepotMultipleDriverTimeWindows route4me)
 ADD_EXECUTABLE(ReOptimization ReOptimization.cpp)
 TARGET_LINK_LIBRARIES(ReOptimization route4me)
 
+ADD_EXECUTABLE(GetOptimization GetOptimization.cpp)
+TARGET_LINK_LIBRARIES(GetOptimization route4me)
+
+ADD_EXECUTABLE(GetOptimizations GetOptimizations.cpp)
+TARGET_LINK_LIBRARIES(GetOptimizations route4me)
+
+ADD_EXECUTABLE(RemoveOptimization RemoveOptimization.cpp)
+TARGET_LINK_LIBRARIES(RemoveOptimization route4me)
+
 ADD_EXECUTABLE(OptimizeAndReoptimize OptimizeAndReoptimize.cpp)
 TARGET_LINK_LIBRARIES(OptimizeAndReoptimize route4me)
 
