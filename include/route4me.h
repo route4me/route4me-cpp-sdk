@@ -200,18 +200,24 @@ public:
     int run_optimization(const CAddressArray& addr, Json::Value& props);
 
     /** \brief Returns optimization problem.
+    * \param optimization problem id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_optimization(const char* optimization_problem_id);
+
+    /** \brief Returns optimization problem.
     * \param states list of addresses for the optimization problem
     * \param offset
     * \param limit
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
-    int get_optimization(const char* states, int offset, int limit);
+    int get_optimizations(const char* states, int offset, int limit);
 
     /** \brief Removes optimization problem.
-    * \param opt_id - id of the problem
+    * \param fields
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
-    int remove_optimization(const char* opt_id);
+    int remove_optimization(const Json::Value& fields);
 
     /** \brief Removes address from optimization problem.
     * \param address - id of the address

@@ -40,6 +40,12 @@ TARGET_LINK_LIBRARIES(GetCustomOrders route4me)
 ADD_EXECUTABLE(GetOrdersQuery GetOrdersQuery.cpp)
 TARGET_LINK_LIBRARIES(GetOrdersQuery route4me)
 
+ADD_EXECUTABLE(TeamActivities TeamActivities.cpp)
+TARGET_LINK_LIBRARIES(TeamActivities route4me)
+
+ADD_EXECUTABLE(LogActivities LogActivities.cpp)
+TARGET_LINK_LIBRARIES(LogActivities route4me)
+
 ADD_EXECUTABLE(Activities Activities.cpp)
 TARGET_LINK_LIBRARIES(Activities route4me)
 
@@ -78,6 +84,15 @@ TARGET_LINK_LIBRARIES(MultipleDepotMultipleDriverTimeWindows route4me)
 
 ADD_EXECUTABLE(ReOptimization ReOptimization.cpp)
 TARGET_LINK_LIBRARIES(ReOptimization route4me)
+
+ADD_EXECUTABLE(GetOptimization GetOptimization.cpp)
+TARGET_LINK_LIBRARIES(GetOptimization route4me)
+
+ADD_EXECUTABLE(GetOptimizations GetOptimizations.cpp)
+TARGET_LINK_LIBRARIES(GetOptimizations route4me)
+
+ADD_EXECUTABLE(RemoveOptimization RemoveOptimization.cpp)
+TARGET_LINK_LIBRARIES(RemoveOptimization route4me)
 
 ADD_EXECUTABLE(OptimizeAndReoptimize OptimizeAndReoptimize.cpp)
 TARGET_LINK_LIBRARIES(OptimizeAndReoptimize route4me)

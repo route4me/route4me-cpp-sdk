@@ -14,11 +14,11 @@ int main()
     CRoute4Me route(KEY);
     const char *route_id = "CA902292134DBC134EAF8363426BD247";
 
-    int ret = route.get_all_activities();
+    int ret = route.log_custom_activity(route_id, "test", "test2");
     if (ret == 0)
-        cout << "Activities: " << Json::FastWriter().write(route.get_json_resp()) << endl;
+        cout << "Writing log: " << Json::FastWriter().write(route.get_json_resp()) << endl;
     else
-        cout << "No activities: " << Json::FastWriter().write(route.get_json_resp()) << endl;
+        cout << "Error writing log: " << Json::FastWriter().write(route.get_json_resp()) << endl;
 
     CRoute4Me::cleanup();
 }
