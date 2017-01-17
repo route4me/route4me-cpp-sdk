@@ -4,6 +4,9 @@ TARGET_LINK_LIBRARIES(RouteManifest route4me)
 ADD_EXECUTABLE(GetRoute GetRoute.cpp)
 TARGET_LINK_LIBRARIES(GetRoute route4me)
 
+ADD_EXECUTABLE(DuplicateRoute DuplicateRoute.cpp)
+TARGET_LINK_LIBRARIES(DuplicateRoute route4me)
+
 ADD_EXECUTABLE(GetRouteByPoints GetRouteByPoints.cpp)
 TARGET_LINK_LIBRARIES(GetRouteByPoints route4me)
 
@@ -39,6 +42,9 @@ TARGET_LINK_LIBRARIES(GetCustomOrders route4me)
 
 ADD_EXECUTABLE(GetOrdersQuery GetOrdersQuery.cpp)
 TARGET_LINK_LIBRARIES(GetOrdersQuery route4me)
+
+ADD_EXECUTABLE(AddOrder AddOrder.cpp)
+TARGET_LINK_LIBRARIES(AddOrder route4me)
 
 ADD_EXECUTABLE(TeamActivities TeamActivities.cpp)
 TARGET_LINK_LIBRARIES(TeamActivities route4me)
@@ -97,10 +103,5 @@ TARGET_LINK_LIBRARIES(RemoveOptimization route4me)
 ADD_EXECUTABLE(OptimizeAndReoptimize OptimizeAndReoptimize.cpp)
 TARGET_LINK_LIBRARIES(OptimizeAndReoptimize route4me)
 
-ADD_EXECUTABLE(AddOrder AddOrder.cpp)
-TARGET_LINK_LIBRARIES(AddOrder route4me)
-
-ADD_EXECUTABLE(DuplicateRoute DuplicateRoute.cpp)
-TARGET_LINK_LIBRARIES(DuplicateRoute route4me)
 
 
