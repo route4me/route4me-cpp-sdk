@@ -28,6 +28,8 @@ const char *CRoute4Me::R4_USERS = "https://www.route4me.com/api/member/view_user
 const char *CRoute4Me::R4_TERRITORY_HOST = "https://route4me.com/api.v4/territory.php";
 const char *CRoute4Me::AUTHENTICATION_SERVICE = "https://www.route4me.com/actions/authenticate.php";
 const char *CRoute4Me::REGISTRATION_SERVICE = "https://www.route4me.com/actions/register_action.php";
+const char *CRoute4Me::TRACKING_SERVICE = "https://route4me.com/api.v4/status.php";
+const char *CRoute4Me::LOCATION_SERVICE = "https://www.route4me.com/api/track/get_device_location.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -914,6 +916,40 @@ int CRoute4Me::modify_member(Json::Value& body, ReqType method)
         return m_err_code;
     }
     request(method, CRoute4Me::R4_USERS, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::asset_tracking(const char *id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["tracking"] = id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::TRACKING_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_device_location(const char *route_id, int start_date, int end_date,
+                                   const char *period, bool last_position, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["format"] = format;
+    props["last_position"] = last_position;
+    props["time_period"] = period;
+    props["start_date"] = start_date;
+    props["end_date"] = end_date;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::LOCATION_SERVICE, props, null);
     return m_err_code;
 }
 

@@ -118,3 +118,9 @@ TARGET_LINK_LIBRARIES(DeleteMember route4me)
 ADD_EXECUTABLE(ActivitiesByType ActivitiesByType.cpp)
 TARGET_LINK_LIBRARIES(ActivitiesByType route4me)
 
+ADD_EXECUTABLE(AssetTracking AssetTracking.cpp)
+TARGET_LINK_LIBRARIES(AssetTracking route4me)
+
+ADD_EXECUTABLE(GetLocationHistory GetLocationHistory.cpp)
+TARGET_LINK_LIBRARIES(GetLocationHistory route4me)
+
