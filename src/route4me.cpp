@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Constants
 
-const char *CRoute4Me::R4_API_HOST = "http://www.route4me.com/api.v4/optimization_problem.php";
+const char *CRoute4Me::R4_API_HOST = "https://www.route4me.com/api.v4/optimization_problem.php";
 const char *CRoute4Me::R4_SHOW_ROUTE_HOST = "https://www.route4me.com/route4me.php";
 const char *CRoute4Me::R4_ROUTE_HOST = "https://www.route4me.com/api.v4/route.php";
 const char *CRoute4Me::R4_SET_GPS_HOST = "https://www.route4me.com/track/set.php";
@@ -26,6 +26,10 @@ const char *CRoute4Me::R4_ORDER_HOST = "https://www.route4me.com/api.v4/order.ph
 const char *CRoute4Me::R4_ACTIVITIES = "https://www.route4me.com/api/get_activities.php";
 const char *CRoute4Me::R4_USERS = "https://www.route4me.com/api/member/view_users.php";
 const char *CRoute4Me::R4_TERRITORY_HOST = "https://route4me.com/api.v4/territory.php";
+const char *CRoute4Me::AUTHENTICATION_SERVICE = "https://www.route4me.com/actions/authenticate.php";
+const char *CRoute4Me::REGISTRATION_SERVICE = "https://www.route4me.com/actions/register_action.php";
+const char *CRoute4Me::TRACKING_SERVICE = "https://route4me.com/api.v4/status.php";
+const char *CRoute4Me::LOCATION_SERVICE = "https://www.route4me.com/api/track/get_device_location.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -142,15 +146,18 @@ CRoute4Me::key2tp CRoute4Me::add_address_req[] = {
 ///////////////////////////////////////////////////////////////////////////////
 // Construction
 
-CRoute4Me::CRoute4Me(const char *key) :
-    m_key(key), m_err_code(0), m_curl(0)
+CRoute4Me::CRoute4Me(const char *key, bool verbose) :
+    m_key(key), m_err_code(0), m_curl(0), formpost(NULL), m_verbose(verbose)
 {
     m_curl = curl_easy_init();
 }
 
 CRoute4Me::~CRoute4Me()
 {
-    if(m_curl) curl_easy_cleanup(m_curl);
+    if(m_curl)
+        curl_easy_cleanup(m_curl);
+    if (formpost)
+        curl_formfree(formpost);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -847,6 +854,19 @@ int CRoute4Me::log_custom_activity(const char *route_id, const char *activity_ty
     return m_err_code;
 }
 
+int CRoute4Me::get_activities_by_type(const char *act_type)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["activity_type"] = act_type;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ACTIVITIES, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::get_users()
 {
     Json::Value props(Json::objectValue);
@@ -856,6 +876,80 @@ int CRoute4Me::get_users()
     }
     Json::Value null;
     request(CRoute4Me::REQ_GET, CRoute4Me::R4_USERS, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::authenticate_user(const Member* pMember)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+
+    struct curl_httppost *lastptr=NULL;
+
+    curl_formadd(&formpost,
+                   &lastptr,
+                   CURLFORM_COPYNAME, "strEmail",
+                   CURLFORM_COPYCONTENTS, pMember->email.c_str(),
+                   CURLFORM_END);
+    curl_formadd(&formpost,
+                   &lastptr,
+                   CURLFORM_COPYNAME, "strPassword",
+                   CURLFORM_COPYCONTENTS, pMember->password1.c_str(),
+                   CURLFORM_END);
+    curl_formadd(&formpost,
+                   &lastptr,
+                   CURLFORM_COPYNAME, "format",
+                   CURLFORM_COPYCONTENTS, pMember->format.c_str(),
+                   CURLFORM_END);
+
+    Json::Value null;
+    request(CRoute4Me::REQ_POST, CRoute4Me::AUTHENTICATION_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::modify_member(Json::Value& body, ReqType method)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(method, CRoute4Me::R4_USERS, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::asset_tracking(const char *id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["tracking"] = id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::TRACKING_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_device_location(const char *route_id, int start_date, int end_date,
+                                   const char *period, bool last_position, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["format"] = format;
+    props["last_position"] = last_position;
+    props["time_period"] = period;
+    props["start_date"] = start_date;
+    props["end_date"] = end_date;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::LOCATION_SERVICE, props, null);
     return m_err_code;
 }
 
@@ -968,8 +1062,18 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
             curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, payload.c_str());
             break;
         case REQ_POST:
+
             curl_easy_setopt(m_curl, CURLOPT_POST, 1L);
             curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, payload.c_str());
+            if (formpost) {
+                struct curl_slist *headerlist=NULL;
+                static const char buf[] = "Content-Type: multipart/form-data;";
+                headerlist = curl_slist_append(headerlist, buf);
+                curl_easy_setopt(m_curl, CURLOPT_HTTPHEADER, headerlist);
+                curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, formpost);
+                if (m_verbose)
+                    curl_easy_setopt(m_curl, CURLOPT_VERBOSE, 1L);
+            }
             break;
     }
     CURLcode res = curl_easy_perform(m_curl);

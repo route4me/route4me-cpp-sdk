@@ -103,5 +103,24 @@ TARGET_LINK_LIBRARIES(RemoveOptimization route4me)
 ADD_EXECUTABLE(OptimizeAndReoptimize OptimizeAndReoptimize.cpp)
 TARGET_LINK_LIBRARIES(OptimizeAndReoptimize route4me)
 
+ADD_EXECUTABLE(Login Login.cpp)
+TARGET_LINK_LIBRARIES(Login route4me)
 
+ADD_EXECUTABLE(Register Register.cpp)
+TARGET_LINK_LIBRARIES(Register route4me)
+
+ADD_EXECUTABLE(EditMember EditMember.cpp)
+TARGET_LINK_LIBRARIES(EditMember route4me)
+
+ADD_EXECUTABLE(DeleteMember DeleteMember.cpp)
+TARGET_LINK_LIBRARIES(DeleteMember route4me)
+
+ADD_EXECUTABLE(ActivitiesByType ActivitiesByType.cpp)
+TARGET_LINK_LIBRARIES(ActivitiesByType route4me)
+
+ADD_EXECUTABLE(AssetTracking AssetTracking.cpp)
+TARGET_LINK_LIBRARIES(AssetTracking route4me)
+
+ADD_EXECUTABLE(GetLocationHistory GetLocationHistory.cpp)
+TARGET_LINK_LIBRARIES(GetLocationHistory route4me)
 
