@@ -7,7 +7,6 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <sstream>
 #include <curl/curl.h>
 #include "../include/route4me.h"
 

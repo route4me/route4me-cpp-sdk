@@ -108,7 +108,7 @@ public:
     // actual api calls
 
     /** \brief Gets a status update on all the pending (queued) 
-    * optimization problems for a specific API key.R4_USERS
+    * optimization problems for a specific API key.
     * \param props api call parameters
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
@@ -342,7 +342,7 @@ public:
     */
     int get_territory(const char* territory_id);
 
-    /** \brief get all territoriesUser
+    /** \brief get all territories
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int get_all_territories();
