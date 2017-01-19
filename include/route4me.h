@@ -443,6 +443,13 @@ public:
     int log_custom_activity(const char* route_id, const char* activity_type,
                             const char* activity_message);
 
+    /**
+     * @brief get_activities_by_type
+     * /param type of activity
+     * @return
+     */
+    int get_activities_by_type(const char* act_type);
+
     /** \brief get all users
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */

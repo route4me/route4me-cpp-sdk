@@ -852,6 +852,19 @@ int CRoute4Me::log_custom_activity(const char *route_id, const char *activity_ty
     return m_err_code;
 }
 
+int CRoute4Me::get_activities_by_type(const char *act_type)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["activity_type"] = act_type;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ACTIVITIES, props, null);
+    return m_err_code;
+}
+
 int CRoute4Me::get_users()
 {
     Json::Value props(Json::objectValue);

@@ -115,4 +115,6 @@ TARGET_LINK_LIBRARIES(EditMember route4me)
 ADD_EXECUTABLE(DeleteMember DeleteMember.cpp)
 TARGET_LINK_LIBRARIES(DeleteMember route4me)
 
+ADD_EXECUTABLE(ActivitiesByType ActivitiesByType.cpp)
+TARGET_LINK_LIBRARIES(ActivitiesByType route4me)
 
