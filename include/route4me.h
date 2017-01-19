@@ -11,6 +11,22 @@
 #include <json/json.h>
 
 class CAddressArray;
+
+struct Member
+{
+    std::string email;
+    std::string password1;
+    std::string password2;
+    std::string session_guid;
+    std::string format;
+    std::string plan;
+    std::string member_type;
+    std::string industry;
+    std::string first_name;
+    std::string last_name;
+    int check_terms;
+    std::string device_type;
+};
 ///////////////////////////////////////////////////////////////////////////////
 
 /** \brief Rout4me API C++ wrapper
@@ -25,12 +41,14 @@ protected:
     Json::Value m_json_resp;
     std::string m_err_msg;
     int m_err_code;
+    struct curl_httppost *formpost;
+    bool m_verbose;
 
 public:
     /** \brief Constructs a wrapper by Key
     * \param key A key to use on connect to API ('api_key' field)
     */
-    CRoute4Me(const char *key);
+    CRoute4Me(const char *key, bool verbose = false);
 
     /** \brief Deconstructs a wrapper
     *
@@ -68,11 +86,29 @@ public:
     const Json::Value& get_json_resp() { return m_json_resp; }
 
 public:
+    enum ReqType
+    {
+        REQ_GET,
+        REQ_DELETE,
+        REQ_PUT,
+        REQ_POST
+    };
+    struct key2tp
+    {
+        const char *key;
+        Json::ValueType tp;
+    };
+    struct http_resp
+    {
+        char *memory;
+        size_t size;
+    };    
+public:
     ///////////////////
     // actual api calls
 
     /** \brief Gets a status update on all the pending (queued) 
-    * optimization problems for a specific API key.
+    * optimization problems for a specific API key.R4_USERS
     * \param props api call parameters
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
@@ -306,7 +342,7 @@ public:
     */
     int get_territory(const char* territory_id);
 
-    /** \brief get all territories
+    /** \brief get all territoriesUser
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int get_all_territories();
@@ -412,25 +448,19 @@ public:
     */
     int get_users();
 
+    /** \brief authentification of user
+     * \param - structure with user credentials
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int authenticate_user(const Member* member);
 
-public:
-    enum ReqType
-    {
-        REQ_GET,
-        REQ_DELETE,
-        REQ_PUT,
-        REQ_POST
-    };
-    struct key2tp
-    {
-        const char *key;
-        Json::ValueType tp;
-    };
-    struct http_resp
-    {
-        char *memory;
-        size_t size;
-    };
+    /** \brief CRUD operations for member record
+     * \param - Json structure with data to be added, edited or deleted
+     * \param - http method to apply for this data
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int modify_member(Json::Value& value, ReqType method);
+
 protected:
     bool validate(const Json::Value& v, const CRoute4Me::key2tp *p = 0, int n = 0, const char **required = 0, int rn = 0);
     bool request(CRoute4Me::ReqType method, const char *url, Json::Value& props, Json::Value& content);
@@ -442,7 +472,7 @@ public:
             get_address_book_contact_req[];
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
     *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
-    *R4_TERRITORY_HOST;
+    *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
