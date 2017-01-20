@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <curl/curl.h>
+#include <sstream>
 #include "../include/route4me.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -30,6 +31,8 @@ const char *CRoute4Me::AUTHENTICATION_SERVICE = "https://www.route4me.com/action
 const char *CRoute4Me::REGISTRATION_SERVICE = "https://www.route4me.com/actions/register_action.php";
 const char *CRoute4Me::TRACKING_SERVICE = "https://route4me.com/api.v4/status.php";
 const char *CRoute4Me::LOCATION_SERVICE = "https://www.route4me.com/api/track/get_device_location.php";
+const char *CRoute4Me::MERGE_SERVICE = "https://www.route4me.com/actions/merge_routes.php";
+const char *CRoute4Me::SHARE_SERVICE = "https://www.route4me.com/actions/route/share_route.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -340,7 +343,35 @@ int CRoute4Me::remove_address_from_route(const char* route_id, const char* route
     Json::Value null;
     request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_ADDRESS_HOST, props, null);
     return m_err_code;
+}
 
+int CRoute4Me::merge_routes(const char *route_ids, const char *depot_address, MapPoint point, bool remove_origin)
+{
+    //TODO: Implement missing functionality
+    return -1;
+}
+
+int CRoute4Me::share_routes(const char *route_id, const char *email, const char *format)
+{
+    Json::Value props(Json::objectValue);
+
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["response_format"] = format;
+
+    struct curl_httppost *lastptr=NULL;
+
+    curl_formadd(&formpost,
+                   &lastptr,
+                   CURLFORM_COPYNAME, "recipient_email",
+                   CURLFORM_COPYCONTENTS, email,
+                   CURLFORM_END);
+
+    if (!validate(props))
+        return m_err_code;
+     Json::Value null;
+     request(CRoute4Me::REQ_POST, CRoute4Me::SHARE_SERVICE, props, null);
+    return m_err_code;
 }
 
 int CRoute4Me::add_address_book_contacts(Json::Value& body)

@@ -127,3 +127,9 @@ TARGET_LINK_LIBRARIES(GetLocationHistory route4me)
 ADD_EXECUTABLE(AddAddressToOptimization AddAddressToOptimization.cpp)
 TARGET_LINK_LIBRARIES(AddAddressToOptimization route4me)
 
+ADD_EXECUTABLE(MergeRoutes MergeRoutes.cpp)
+TARGET_LINK_LIBRARIES(MergeRoutes route4me)
+
+ADD_EXECUTABLE(ShareRoutes ShareRoutes.cpp)
+TARGET_LINK_LIBRARIES(ShareRoutes route4me)
+
