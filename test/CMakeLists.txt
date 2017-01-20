@@ -124,3 +124,6 @@ TARGET_LINK_LIBRARIES(AssetTracking route4me)
 ADD_EXECUTABLE(GetLocationHistory GetLocationHistory.cpp)
 TARGET_LINK_LIBRARIES(GetLocationHistory route4me)
 
+ADD_EXECUTABLE(AddAddressToOptimization AddAddressToOptimization.cpp)
+TARGET_LINK_LIBRARIES(AddAddressToOptimization route4me)
+
