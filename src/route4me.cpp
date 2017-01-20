@@ -796,6 +796,19 @@ int CRoute4Me::remove_address_from_optimization(const char* address_id, const ch
     return m_err_code;
 }
 
+int CRoute4Me::add_address_to_optimization(Json::Value body, const char *opt_id, bool reoptimize)
+{
+    Json::Value props;
+    props["api_key"] = m_key;
+    props["optimization_problem_id"] = opt_id;
+    props["reoptimize"] = reoptimize;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_API_HOST, props, body);
+    return m_err_code;
+}
+
 int CRoute4Me::reoptimize(const char *opt_id)
 {
     Json::Value props;

@@ -262,6 +262,14 @@ public:
     */
     int remove_address_from_optimization(const char* address, const char* opt_id);
 
+    /** \brief Adds address to optimization problem.
+     * * \param opt_id - id of the problem
+    * \param body - address data in JSON format
+    * \param reoptimize
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int add_address_to_optimization(Json::Value body, const char* opt_id, bool reoptimize = false);
+
     /** \brief Add contacts to address book
     * \param props - contact data as json object
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
