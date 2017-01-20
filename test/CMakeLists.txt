@@ -133,3 +133,9 @@ TARGET_LINK_LIBRARIES(MergeRoutes route4me)
 ADD_EXECUTABLE(ShareRoutes ShareRoutes.cpp)
 TARGET_LINK_LIBRARIES(ShareRoutes route4me)
 
+ADD_EXECUTABLE(BatchGeocoding BatchGeocoding.cpp)
+TARGET_LINK_LIBRARIES(BatchGeocoding route4me)
+
+ADD_EXECUTABLE(ReverseGeocoding ReverseGeocoding.cpp)
+TARGET_LINK_LIBRARIES(ReverseGeocoding route4me)
+

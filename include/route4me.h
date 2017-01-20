@@ -519,6 +519,35 @@ public:
     int get_device_location(const char* route_id, int start_date, int end_date,
                             const char* period, bool last_position = false, const char* format = "json");
 
+    /**
+     * \brief Batch geocoding
+     * \param addresses
+     * \param format
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int batch_geocoding(const char* addresses, const char* format);
+
+    /**
+     * \brief Reverse geocoding
+     * \param addresses
+     * \param format
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int reverse_geocoding(const char* addresses, const char* format);
+
+    // TODO section:
+    /**
+     * \brief mark address as visited
+     * \param route_id
+     * \param address_id
+     * \param visited
+     * \param member
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int mark_address_visited(const char* route_id, const char* address_id, bool visited, int member_id);
+
+    int mark_address_departed(const char* route_id, const char* address_id, bool departed, int member_id);
+
 protected:
     bool validate(const Json::Value& v, const CRoute4Me::key2tp *p = 0, int n = 0, const char **required = 0, int rn = 0);
     bool request(CRoute4Me::ReqType method, const char *url, Json::Value& props, Json::Value& content);
@@ -531,7 +560,7 @@ public:
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
     *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
     *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
-    *MERGE_SERVICE, *SHARE_SERVICE;
+    *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid

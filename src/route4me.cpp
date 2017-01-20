@@ -32,6 +32,8 @@ const char *CRoute4Me::TRACKING_SERVICE = "https://route4me.com/api.v4/status.ph
 const char *CRoute4Me::LOCATION_SERVICE = "https://www.route4me.com/api/track/get_device_location.php";
 const char *CRoute4Me::MERGE_SERVICE = "https://www.route4me.com/actions/merge_routes.php";
 const char *CRoute4Me::SHARE_SERVICE = "https://www.route4me.com/actions/route/share_route.php";
+const char *CRoute4Me::ADDRESS_VISITED_SERVICE = "https://www.route4me.com/api/address/update_address_visited.php";
+const char *CRoute4Me::GEOCODER = "https://www.route4me.com/api/geocoder.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -993,6 +995,36 @@ int CRoute4Me::get_device_location(const char *route_id, int start_date, int end
     }
     Json::Value null;
     request(CRoute4Me::REQ_GET, CRoute4Me::LOCATION_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::batch_geocoding(const char *addresses, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["addresses"] = addresses;
+    props["format"] = format;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::GEOCODER, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::reverse_geocoding(const char *addresses, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["addresses"] = addresses;
+    props["format"] = format;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_POST, CRoute4Me::GEOCODER, props, null);
     return m_err_code;
 }
 
