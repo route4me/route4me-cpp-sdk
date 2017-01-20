@@ -27,6 +27,13 @@ struct Member
     int check_terms;
     std::string device_type;
 };
+
+struct MapPoint
+{
+    double lat;
+    double lng;
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 
 /** \brief Rout4me API C++ wrapper
@@ -193,6 +200,23 @@ public:
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
     int delete_route(const char *route_id);
+
+    /** \brief Merge routes
+    * \param route_ids - comma separated list of routes
+    * \param depot_address
+    * \param point - lattitide and longtitude of depot
+    * \param remove_origin
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int merge_routes(const char* route_ids, const char* depot_address, MapPoint point, bool remove_origin = false);
+
+    /** \brief Share route
+    * \param route_id route ID
+    * \param email - send route data there
+    * \param format
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int share_routes(const char* route_id, const char* email, const char* format = "json");
 
     /** \brief Returns route destination details.
     * \param route_id
@@ -506,7 +530,8 @@ public:
             get_address_book_contact_req[];
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
     *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
-    *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE;
+    *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
+    *MERGE_SERVICE, *SHARE_SERVICE;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
