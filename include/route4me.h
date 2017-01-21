@@ -34,6 +34,12 @@ struct MapPoint
     double lng;
 };
 
+struct AddressData
+{
+    std::string zipCode;
+    std::string houseNumber;
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 
 /** \brief Rout4me API C++ wrapper
@@ -535,6 +541,28 @@ public:
      */
     int reverse_geocoding(const char* addresses, const char* format);
 
+    /**
+     * \brief Get one street data
+     * \param seqno = street sequential number in streets list
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int get_street_address(int seqno);
+
+    /**
+     * \brief Get one street data
+     * \param zipcode
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int get_street_address(const AddressData& data, int limit = -1, int offset = -1);
+
+    /**
+     * \brief Get one street data
+     * \param offset - not applied if equals 0
+     * \param limit
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int get_all_streets(int limit = 0, int offset = 0);
+
     // TODO section:
     /**
      * \brief mark address as visited
@@ -560,7 +588,7 @@ public:
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
     *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
     *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
-    *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER;
+    *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER, *STREET_SERVICE;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
@@ -601,6 +629,8 @@ public:
         TSP_TW_CR = 6,
         BBCVRP = 7
 	};
+private:
+    template <class T> void append_url(std::string& url, T arg) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
