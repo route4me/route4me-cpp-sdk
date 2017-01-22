@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <curl/curl.h>
+#include <sstream>
 #include "../include/route4me.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,7 @@ const char *CRoute4Me::MERGE_SERVICE = "https://www.route4me.com/actions/merge_r
 const char *CRoute4Me::SHARE_SERVICE = "https://www.route4me.com/actions/route/share_route.php";
 const char *CRoute4Me::ADDRESS_VISITED_SERVICE = "https://www.route4me.com/api/address/update_address_visited.php";
 const char *CRoute4Me::GEOCODER = "https://www.route4me.com/api/geocoder.php";
+const char *CRoute4Me::STREET_SERVICE = "https://rapid.route4me.com/street_data/";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -1025,6 +1027,70 @@ int CRoute4Me::reverse_geocoding(const char *addresses, const char *format)
     }
     Json::Value null;
     request(CRoute4Me::REQ_POST, CRoute4Me::GEOCODER, props, null);
+    return m_err_code;
+}
+
+template <class T> void CRoute4Me::append_url(std::string& url, T arg) const
+{
+    std::stringstream ss;
+    ss << arg;
+    url += ss.str() + "/";
+}
+
+int CRoute4Me::get_street_address(int seqno)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    std::string url = std::string(CRoute4Me::STREET_SERVICE );
+    append_url(url, seqno);
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, url.c_str(), props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_street_address(const AddressData& addr, int offset, int limit)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    std::string url = std::string(CRoute4Me::STREET_SERVICE) +
+                                  ((addr.houseNumber.empty()) ? "zipcode/" : "service/");
+    url += addr.zipCode + "/";
+    if (!addr.houseNumber.empty()) {
+        url += addr.houseNumber + "/";
+    }
+    if (offset >= 0) {
+        append_url(url, offset);
+        append_url(url, limit);
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, url.c_str(), props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::get_all_streets(int limit, int offset)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    std::string url = std::string(CRoute4Me::STREET_SERVICE );
+
+    if (offset >= 0) {
+       append_url(url, offset);
+       append_url(url, limit);
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, url.c_str(), props, null);
     return m_err_code;
 }
 

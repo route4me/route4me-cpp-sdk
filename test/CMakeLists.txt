@@ -139,3 +139,16 @@ TARGET_LINK_LIBRARIES(BatchGeocoding route4me)
 ADD_EXECUTABLE(ReverseGeocoding ReverseGeocoding.cpp)
 TARGET_LINK_LIBRARIES(ReverseGeocoding route4me)
 
+ADD_EXECUTABLE(GetSingleStreet GetSingleStreet.cpp)
+TARGET_LINK_LIBRARIES(GetSingleStreet route4me)
+
+ADD_EXECUTABLE(GetAllStreets GetAllStreets.cpp)
+TARGET_LINK_LIBRARIES(GetAllStreets route4me)
+
+ADD_EXECUTABLE(GetStreetsLimited GetStreetsLimited.cpp)
+TARGET_LINK_LIBRARIES(GetStreetsLimited route4me)
+
+ADD_EXECUTABLE(GetStreetsZipHouse GetStreetsZipHouse.cpp)
+TARGET_LINK_LIBRARIES(GetStreetsZipHouse route4me)
+
+
