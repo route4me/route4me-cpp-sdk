@@ -350,49 +350,8 @@ int CRoute4Me::remove_address_from_route(const char* route_id, const char* route
 
 int CRoute4Me::merge_routes(const char *route_ids, const char *depot_address, MapPoint point, bool remove_origin)
 {
-    Json::Value props(Json::objectValue);
-
-    props["api_key"] = m_key;
-    props["route_ids"] = route_ids;
-
-    struct curl_httppost *lastptr=NULL;
-
- /*   curl_formadd(&formpost,
-                 &lastptr,
-                 CURLFORM_COPYNAME, "route_ids",
-                 CURLFORM_COPYCONTENTS, route_ids,
-                 CURLFORM_END);
-
-    curl_formadd(&formpost,
-                 &lastptr,
-                 CURLFORM_COPYNAME, "depot_address",
-                 CURLFORM_COPYCONTENTS, depot_address,
-                 CURLFORM_END);
-
-    curl_formadd(&formpost,
-                 &lastptr,
-                 CURLFORM_COPYNAME, "remove_origin",
-                 CURLFORM_COPYCONTENTS, "false",
-                 CURLFORM_END);
-
-    curl_formadd(&formpost,
-                 &lastptr,
-                 CURLFORM_COPYNAME, "depot_lat",
-                 CURLFORM_COPYCONTENTS, "38",
-                 CURLFORM_END);
-
-    curl_formadd(&formpost,
-                 &lastptr,
-                 CURLFORM_COPYNAME, "depot_lng",
-                 CURLFORM_COPYCONTENTS, "77",
-                 CURLFORM_END);*/
-
-    if (!validate(props))
-        return m_err_code;
-
-     Json::Value null;
-     request(CRoute4Me::REQ_POST, CRoute4Me::MERGE_SERVICE, props, null);
-     return m_err_code;
+    //TODO: Implement missing functionality
+    return -1;
 }
 
 int CRoute4Me::share_routes(const char *route_id, const char *email, const char *format)

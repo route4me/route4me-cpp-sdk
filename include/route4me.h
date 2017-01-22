@@ -550,18 +550,20 @@ public:
 
     /**
      * \brief Get one street data
-     * \param zipcode
+     * \param address data - zip code and house number
+     * \param limit - not used if set to -1
+     * \param offset - not used if set to -1
      * \return \c 0 if the response was successfully received, \c error code if an error occurred.
      */
     int get_street_address(const AddressData& data, int limit = -1, int offset = -1);
 
     /**
      * \brief Get one street data
-     * \param offset - not applied if equals 0
-     * \param limit
+     * \param offset - not applied if equals -1
+     * \param limit - not applied if set to -1
      * \return \c 0 if the response was successfully received, \c error code if an error occurred.
      */
-    int get_all_streets(int limit = 0, int offset = 0);
+    int get_all_streets(int limit = -1, int offset = -1);
 
     // TODO section:
     /**
