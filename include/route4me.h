@@ -506,6 +506,18 @@ public:
     */
     int modify_member(Json::Value& value, ReqType method);
 
+    /** \brief Purchase user license
+     * \param - Json structure with user data
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int purchase_user_license(Json::Value& body);
+
+    /** \brief Purchase device license
+     * \param - Json structure with device data
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int purchase_device_license(Json::Value& body);
+
     /**
      * \brief asset_tracking
      * \param id
@@ -565,6 +577,56 @@ public:
      */
     int get_all_streets(int limit = -1, int offset = -1);
 
+    /**
+     * \brief Get sub-users
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int get_subusers();
+
+    /**
+     * \brief Validate session
+     * \param session id
+     * \param member id
+     * \param format
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int validate_session(const char* session_id, const char* member_id, const char* format = "json");
+
+    /** \brief Get configuration data
+     * \param key - get all configuration data if NULL
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_config(const char* key = NULL);
+
+    /** \brief CRUD operations for configuration settings
+     * \param - Json structure with data to be added, edited or deleted
+     * \param - http method to apply for this data
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int modify_config(Json::Value& value, ReqType method);
+
+    /** \brief Get vehicles
+     * \param - offset
+     * \param - limit
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int get_vehicles(int offset, int limit);
+
+    /** \brief Preview file
+     * \param - id
+     * \param - format - "json" by default
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int preview_file(const char* id, const char* format = "json");
+
+    /** \brief Upload file
+     * \param - id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int upload_file(const char* file_name, const char* format = "json");
+
+    int upload_geocoding(const char* id);
+
     // TODO section:
     /**
      * \brief mark address as visited
@@ -590,7 +652,9 @@ public:
     static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
     *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
     *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
-    *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER, *STREET_SERVICE;
+    *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER, *STREET_SERVICE, *USER_LICENSE_SERVICE,
+    *DEVICE_LICENSE_SERVICE, *USER_SERVICE, *VALIDATE_SESSION, *CONFIG_SERVICE, *VEHICLES_SERVICE,
+    *PREVIEW_SERVICE, *UPLOAD_SERVICE, *UPLOAD_GEOCODING;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid

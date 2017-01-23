@@ -151,4 +151,27 @@ TARGET_LINK_LIBRARIES(GetStreetsLimited route4me)
 ADD_EXECUTABLE(GetStreetsZipHouse GetStreetsZipHouse.cpp)
 TARGET_LINK_LIBRARIES(GetStreetsZipHouse route4me)
 
+ADD_EXECUTABLE(PurchaseLicense PurchaseLicense.cpp)
+TARGET_LINK_LIBRARIES(PurchaseLicense route4me)
+
+ADD_EXECUTABLE(GetSubUsers GetSubUsers.cpp)
+TARGET_LINK_LIBRARIES(GetSubUsers route4me)
+
+ADD_EXECUTABLE(ValidateSession ValidateSession.cpp)
+TARGET_LINK_LIBRARIES(ValidateSession route4me)
+
+ADD_EXECUTABLE(AddConfig AddConfig.cpp)
+TARGET_LINK_LIBRARIES(AddConfig route4me)
+
+ADD_EXECUTABLE(GetConfig GetConfig.cpp)
+TARGET_LINK_LIBRARIES(GetConfig route4me)
+
+ADD_EXECUTABLE(GetVehicles GetVehicles.cpp)
+TARGET_LINK_LIBRARIES(GetVehicles route4me)
+
+ADD_EXECUTABLE(PreviewFile PreviewFile.cpp)
+TARGET_LINK_LIBRARIES(PreviewFile route4me)
+
+ADD_EXECUTABLE(UploadFile UploadFile.cpp)
+TARGET_LINK_LIBRARIES(UploadFile route4me)
 
