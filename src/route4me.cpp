@@ -36,6 +36,15 @@ const char *CRoute4Me::SHARE_SERVICE = "https://www.route4me.com/actions/route/s
 const char *CRoute4Me::ADDRESS_VISITED_SERVICE = "https://www.route4me.com/api/address/update_address_visited.php";
 const char *CRoute4Me::GEOCODER = "https://www.route4me.com/api/geocoder.php";
 const char *CRoute4Me::STREET_SERVICE = "https://rapid.route4me.com/street_data/";
+const char *CRoute4Me::USER_LICENSE_SERVICE = "https://www.route4me.com/api/member/user_license.php";
+const char *CRoute4Me::DEVICE_LICENSE_SERVICE = "https://www.route4me.com/api/device/verify_device_license.php";
+const char *CRoute4Me::USER_SERVICE = "https://www.route4me.com/api.v4/user.php";
+const char *CRoute4Me::VALIDATE_SESSION = "https://www.route4me.com/datafeed/session/validate_session.php";
+const char *CRoute4Me::CONFIG_SERVICE = "https://route4me.com/api.v4/configuration-settings.php";
+const char *CRoute4Me::VEHICLES_SERVICE = "https://www.route4me.com/api/vehicles/view_vehicles.php";
+const char *CRoute4Me::PREVIEW_SERVICE = "https://www.route4me.com/actions/upload/csv-xls-preview.php";
+const char *CRoute4Me::UPLOAD_SERVICE = "https://www.route4me.com/actions/upload/upload.php";
+const char *CRoute4Me::UPLOAD_GEOCODING = "https://www.route4me.com/actions/upload/csv-xls-geocode.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -966,6 +975,18 @@ int CRoute4Me::modify_member(Json::Value& body, ReqType method)
     return m_err_code;
 }
 
+int CRoute4Me::purchase_user_license(Json::Value &body)
+{
+    // TODO: Implement missing functionality
+    return -1;
+}
+
+int CRoute4Me::purchase_device_license(Json::Value &body)
+{
+    // TODO: Implement missing functionality
+    return -1;
+}
+
 int CRoute4Me::asset_tracking(const char *id)
 {
     Json::Value props(Json::objectValue);
@@ -1094,6 +1115,127 @@ int CRoute4Me::get_all_streets(int limit, int offset)
     return m_err_code;
 }
 
+int CRoute4Me::get_subusers()
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::USER_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::validate_session(const char *session_id, const char *member_id, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["session_guid"] = session_id;
+    props["member_id"] = member_id;
+    props["format"] = format;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::VALIDATE_SESSION, props, null);
+    return m_err_code;
+
+}
+
+int CRoute4Me::get_config(const char *key)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (key)
+    {
+        props["config_key"] = key;
+    }
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::CONFIG_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::modify_config(Json::Value &value, ReqType method)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    request(method, CRoute4Me::CONFIG_SERVICE, props, value);
+    return m_err_code;
+}
+
+int CRoute4Me::get_vehicles(int offset, int limit)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["offset"] = offset;
+    props["limit"] = limit;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::VEHICLES_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::preview_file(const char *id, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["strUploadID"] = id;
+    props["format"] = format;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::PREVIEW_SERVICE, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::upload_file(const char *file_name, const char *format)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["format"] = format;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    Json::Value body;
+    body["strFilename"] = file_name;
+    request(CRoute4Me::REQ_POST, CRoute4Me::UPLOAD_SERVICE, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::upload_geocoding(const char *id)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["strUploadID"] = id;
+
+    if (!validate(props)) {
+        return m_err_code;
+    }
+
+    Json::Value null;
+    request(CRoute4Me::REQ_POST, CRoute4Me::UPLOAD_GEOCODING, props, null);
+    return m_err_code;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // CURL wrapper
 
@@ -1187,7 +1329,8 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
     curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, (void *)&chunk);
     curl_easy_setopt(m_curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
     //curl_easy_setopt(m_curl, CURLOPT_FOLLOWLOCATION, 1L);
-    //curl_easy_setopt(m_curl, CURLOPT_VERBOSE, 1L);
+    if (m_verbose)
+        curl_easy_setopt(m_curl, CURLOPT_VERBOSE, 1L);
     if(!content.isNull())
         payload = Json::FastWriter().write(content);
     switch(method)
@@ -1211,9 +1354,7 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
                 static const char buf[] = "Content-Type: multipart/form-data;";
                 headerlist = curl_slist_append(headerlist, buf);
                 curl_easy_setopt(m_curl, CURLOPT_HTTPHEADER, headerlist);
-                curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, formpost);
-                if (m_verbose)
-                    curl_easy_setopt(m_curl, CURLOPT_VERBOSE, 1L);
+                curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, formpost);                
             }
             break;
     }
