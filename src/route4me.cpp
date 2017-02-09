@@ -1032,7 +1032,7 @@ int CRoute4Me::batch_geocoding(const char *addresses, const char *format)
         return m_err_code;
     }
     Json::Value null;
-    request(CRoute4Me::REQ_GET, CRoute4Me::GEOCODER, props, null);
+    request(CRoute4Me::REQ_POST, CRoute4Me::GEOCODER, props, null);
     return m_err_code;
 }
 
