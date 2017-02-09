@@ -643,8 +643,7 @@ int CRoute4Me::add_order_to_route(const char* route_id, Json::Value& body, int r
     Json::Value props(Json::objectValue);
     props["api_key"] = m_key;
     props["redirect"] = redirect;
-    props["route_id"] = route_id;
-    props["redirect"] = redirect;
+    props["route_id"] = route_id;    
     if (!validate(props)) {
         return m_err_code;
     }
@@ -699,7 +698,7 @@ int CRoute4Me::update_order(int redirect, Json::Value &body)
     if (!validate(props)) {
         return m_err_code;
     }
-    request(CRoute4Me::REQ_DELETE, CRoute4Me::R4_ORDER_HOST, props, body);
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ORDER_HOST, props, body);
     return m_err_code;
 }
 
@@ -1032,7 +1031,7 @@ int CRoute4Me::batch_geocoding(const char *addresses, const char *format)
         return m_err_code;
     }
     Json::Value null;
-    request(CRoute4Me::REQ_GET, CRoute4Me::GEOCODER, props, null);
+    request(CRoute4Me::REQ_POST, CRoute4Me::GEOCODER, props, null);
     return m_err_code;
 }
 
