@@ -22,7 +22,7 @@ int main()
     inf >> territory_data;
     CRoute4Me route(KEY);
 
-     if (route.add_territory("Territory", territory_data) == 0) {
+     if (route.add_territory(territory_data) == 0) {
         cout << "Added territory:" << endl << Json::FastWriter().write(route.get_json_resp()) << endl;
     }
     else {
