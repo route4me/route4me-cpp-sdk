@@ -1320,7 +1320,6 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
     chunk.memory = (char*) malloc(1);
     chunk.size = 0;
     std::string req = make_arg(m_curl, url, props); // prepare url with parameters
-    printf("REQUEST : %s\n", req.c_str());
     curl_easy_reset(m_curl);
     curl_easy_getinfo(m_curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_setopt(m_curl, CURLOPT_URL, req.c_str());
@@ -1333,7 +1332,6 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
         curl_easy_setopt(m_curl, CURLOPT_VERBOSE, 1L);
     if(!content.isNull())
         payload = Json::FastWriter().write(content);
-    printf("payload = %s\n", payload.c_str());
     switch(method)
     {
         //case REQ_GET:
