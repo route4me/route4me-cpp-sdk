@@ -501,7 +501,7 @@ int CRoute4Me::set_gps(Json::Value& props)
     if(!validate(props, CRoute4Me::set_gps_req, sizeof(CRoute4Me::set_gps_req)/sizeof(CRoute4Me::key2tp), m, sizeof(m)/sizeof(const char*)))
         return m_err_code;
     Json::Value null;
-    request(CRoute4Me::REQ_GET, CRoute4Me::R4_SET_GPS_HOST, props, null);
+    request(CRoute4Me::REQ_POST, CRoute4Me::R4_SET_GPS_HOST, props, null);
     return m_err_code;
 }
 
@@ -570,11 +570,10 @@ int CRoute4Me::remove_avoidance_zone(const char * territory_id)
     return m_err_code;
 }
 
-int CRoute4Me::add_territory(const char * territory_id, Json::Value& body)
+int CRoute4Me::add_territory(Json::Value& body)
 {
     Json::Value props(Json::objectValue);
     props["api_key"] = m_key;
-    props["territory_id"] = territory_id;
 
     if (!validate(props)) {
         return m_err_code;
@@ -1327,6 +1326,7 @@ bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value&
     curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, read_http_resp);
     curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, (void *)&chunk);
     curl_easy_setopt(m_curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+
     //curl_easy_setopt(m_curl, CURLOPT_FOLLOWLOCATION, 1L);
     if (m_verbose)
         curl_easy_setopt(m_curl, CURLOPT_VERBOSE, 1L);

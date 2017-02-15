@@ -367,11 +367,10 @@ public:
     int remove_avoidance_zone(const char* territory_id);
 
     /** \brief create a territory
-    * \param territory_id
     * \param data as JSON object
     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
     */
-    int add_territory(const char* territory_id, Json::Value& data);
+    int add_territory(Json::Value& data);
 
     /** \brief get a territory
     * \param territory_id
