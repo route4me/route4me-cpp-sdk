@@ -24,7 +24,8 @@ int main()
         if(opt_lst.isArray())
         {
             std::cout << "Key = " << KEY << "; Optimization problems are:" << endl;
-            for(unsigned i = 0; i < opt_lst.size(); i++)
+            unsigned optListSize = opt_lst.size();
+            for(unsigned i = 0; i < optListSize ; ++i)
             {
                 string id = opt_lst[i]["optimization_problem_id"].asString();
                 int state = opt_lst[i]["state"].asInt();
