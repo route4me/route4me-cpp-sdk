@@ -7,4 +7,5 @@ os:
 - linux
 script:
 - cmake .
+- make all
 
