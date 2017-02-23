@@ -8,5 +8,5 @@ os:
 script:
 - cmake .
 - make all
-- ctest test
+- ctest
 
