@@ -5,13 +5,14 @@ compiler:
 - gcc
 os:
 - linux
-before_install:
-- pwd
+install:
+- CURRENT=pwd
 - sudo apt-get install libgtest-dev
 - cd /usr/src/gtest
 - sudo cmake CMakeLists.txt
 - sudo make
 - sudo cp *.a /usr/lib
+- cd $CURRENT
 script:
 - cmake .
 - make all
