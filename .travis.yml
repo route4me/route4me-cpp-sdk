@@ -6,6 +6,7 @@ compiler:
 os:
 - linux
 before_install:
+- pwd
 - sudo apt-get install libgtest-dev
 - cd /usr/src/gtest
 - sudo cmake CMakeLists.txt
