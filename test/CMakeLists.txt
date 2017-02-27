@@ -65,3 +65,8 @@ ADD_EXECUTABLE(OptimizationTest OptimizationTest)
 TARGET_LINK_LIBRARIES(OptimizationTest route4me)
 TARGET_LINK_LIBRARIES(OptimizationTest ${GTEST_LIBRARIES} pthread)
 ADD_TEST(OptimizationTest OptimizationTest)
+
+ADD_EXECUTABLE(SessionTest SessionTest)
+TARGET_LINK_LIBRARIES(SessionTest route4me)
+TARGET_LINK_LIBRARIES(SessionTest ${GTEST_LIBRARIES} pthread)
+ADD_TEST(SessionTest SessionTest)
