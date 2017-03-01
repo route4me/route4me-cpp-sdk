@@ -75,4 +75,6 @@ ADD_EXECUTABLE(GPSTest GPSTest)
 TARGET_LINK_LIBRARIES(GPSTest route4me)
 TARGET_LINK_LIBRARIES(GPSTest ${GTEST_LIBRARIES} pthread)
 ADD_TEST(GPSTest GPSTest)
-add_test(GPSTest_valgrind valgrind --read-var-info=yes --leak-check=full --show-leak-kinds=all ./GPSTest)
+
+# No neeed to run valgrind tests for each build. Line below added for example.
+# ADD_TEST(GPSTest_valgrind valgrind --read-var-info=yes --leak-check=full --show-leak-kinds=all ./GPSTest)
