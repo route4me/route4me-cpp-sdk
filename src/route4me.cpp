@@ -45,6 +45,7 @@ const char *CRoute4Me::VEHICLES_SERVICE = "https://www.route4me.com/api/vehicles
 const char *CRoute4Me::PREVIEW_SERVICE = "https://www.route4me.com/actions/upload/csv-xls-preview.php";
 const char *CRoute4Me::UPLOAD_SERVICE = "https://www.route4me.com/actions/upload/upload.php";
 const char *CRoute4Me::UPLOAD_GEOCODING = "https://www.route4me.com/actions/upload/csv-xls-geocode.php";
+const char *CRoute4Me::JSON_GEOCODING = "https://www.route4me.com/actions/upload/json-geocode.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -445,7 +446,7 @@ int CRoute4Me::update_address_book_contacts(const char* address_id, Json::Value 
     if (!validate(props)) {
         return m_err_code;
     }
-    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_BOOK, props, body);
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ADDRESS_BOOK, props, body);
     return m_err_code;
 }
 
@@ -1231,6 +1232,17 @@ int CRoute4Me::upload_geocoding(const char *id)
 
     Json::Value null;
     request(CRoute4Me::REQ_POST, CRoute4Me::UPLOAD_GEOCODING, props, null);
+    return m_err_code;
+}
+
+int CRoute4Me::json_geocoding(Json::Value &body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_POST, CRoute4Me::JSON_GEOCODING, props, body);
     return m_err_code;
 }
 

@@ -8,7 +8,8 @@
 #define __cpproute4me_route4me__
 
 #include <string>
-#include <json/json.h>
+//#include <json/json.h>
+#include "json/json.h"
 
 class CAddressArray;
 
@@ -624,7 +625,17 @@ public:
     */
     int upload_file(const char* file_name, const char* format = "json");
 
+    /** \brief Upload geocoding
+     * \param - id
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
     int upload_geocoding(const char* id);
+
+    /** \brief Upload JSON geocoding
+     * \param - body - JSON data
+    * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+    */
+    int json_geocoding(Json::Value& body);
 
     // TODO section:
     /**
@@ -653,7 +664,7 @@ public:
     *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
     *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER, *STREET_SERVICE, *USER_LICENSE_SERVICE,
     *DEVICE_LICENSE_SERVICE, *USER_SERVICE, *VALIDATE_SESSION, *CONFIG_SERVICE, *VEHICLES_SERVICE,
-    *PREVIEW_SERVICE, *UPLOAD_SERVICE, *UPLOAD_GEOCODING;
+    *PREVIEW_SERVICE, *UPLOAD_SERVICE, *UPLOAD_GEOCODING, *JSON_GEOCODING;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
