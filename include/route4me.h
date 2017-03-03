@@ -652,14 +652,14 @@ public:
 
 protected:
     bool validate(const Json::Value& v, const CRoute4Me::key2tp *p = 0, int n = 0, const char **required = 0, int rn = 0);
-    bool request(CRoute4Me::ReqType method, const char *url, Json::Value& props, Json::Value& content);
+    bool request(CRoute4Me::ReqType method, const char *serviceURL, Json::Value& props, Json::Value& content, const char* altURL = NULL);
 
 public:
     static key2tp get_route_q_req[], set_gps_req[], get_route_address_req[],\
             get_address_notes_req[], get__multiple_routes_req[], update_route_req[], update_route_data_req[], \
             duplicate_route_req[], delete_route_req[], add_address_req[], add_address_notes_req[],\
             get_address_book_contact_req[];
-    static const char *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
+    static const char *MAIN_HOST, *RAPID_HOST, *R4_API_HOST, *R4_SHOW_ROUTE_HOST, *R4_DUPLICATE_ROUTE_HOST, *R4_ROUTE_HOST, *R4_SET_GPS_HOST,
     *R4_ADDRESS_HOST, *R4_ADD_ROUTE_NOTES, *R4_ADDRESS_BOOK, *R4_AVOIDANCE_HOST, *R4_ORDER_HOST, *R4_ACTIVITIES, *R4_USERS,
     *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
     *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER, *STREET_SERVICE, *USER_LICENSE_SERVICE,
