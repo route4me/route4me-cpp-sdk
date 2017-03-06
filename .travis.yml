@@ -6,7 +6,7 @@ compiler:
 os:
 - linux
 before_install:
-- sudo apt-add-repository ppa:bruun/hayai
+- sudo apt-add-repository ppa:bruun/hayai -y
 - sudo apt-get update
 - sudo apt-get install libhayai-dev
 install:
