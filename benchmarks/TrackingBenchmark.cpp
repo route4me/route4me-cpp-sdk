@@ -5,15 +5,10 @@
 
 CRoute4Me* pRoute;
 
-BENCHMARK(ActivitiesFixture, ActivitiesTest, 10, 10)
+BENCHMARK(TrackingFixture, Track, 10, 10)
 {
-    pRoute->get_all_activities();
-}
-
-BENCHMARK(ActivitiesFixture, ActivitiesByTeam, 10, 10)
-{
-    const char *route_id = "CA902292134DBC134EAF8363426BD247";
-    pRoute->get_team_activities(route_id);
+    const char *id = "Q7G9P1L9";
+    int ret = pRoute->asset_tracking(id);
 }
 
 int main()

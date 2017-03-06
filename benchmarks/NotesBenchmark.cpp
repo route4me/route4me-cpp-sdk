@@ -5,15 +5,11 @@
 
 CRoute4Me* pRoute;
 
-BENCHMARK(ActivitiesFixture, ActivitiesTest, 10, 10)
-{
-    pRoute->get_all_activities();
-}
-
-BENCHMARK(ActivitiesFixture, ActivitiesByTeam, 10, 10)
+BENCHMARK(AddressBookFixture, GetAllContacts, 10, 10)
 {
     const char *route_id = "CA902292134DBC134EAF8363426BD247";
-    pRoute->get_team_activities(route_id);
+    const char *route_destination_id = "174405709A";
+    pRoute->get_route_notes(route_id, route_destination_id);
 }
 
 int main()

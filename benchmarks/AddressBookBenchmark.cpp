@@ -5,15 +5,15 @@
 
 CRoute4Me* pRoute;
 
-BENCHMARK(ActivitiesFixture, ActivitiesTest, 10, 10)
+BENCHMARK(AddressBookFixture, GetAllContacts, 10, 10)
 {
-    pRoute->get_all_activities();
+    pRoute->get_address_book_contacts();
 }
 
-BENCHMARK(ActivitiesFixture, ActivitiesByTeam, 10, 10)
+BENCHMARK(AddressBookFixture, GetOneContact, 10, 10)
 {
-    const char *route_id = "CA902292134DBC134EAF8363426BD247";
-    pRoute->get_team_activities(route_id);
+    const char *id = "Wall";
+    int ret = pRoute->get_address_book_contacts_by_text(id);
 }
 
 int main()

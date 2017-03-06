@@ -5,15 +5,16 @@
 
 CRoute4Me* pRoute;
 
-BENCHMARK(ActivitiesFixture, ActivitiesTest, 10, 10)
+BENCHMARK(OptimizationFixture, GetOptimization, 10, 10)
 {
-    pRoute->get_all_activities();
+    const char *id = "2FB5F91365317758045DB9F19DF5A522";
+    pRoute->get_optimization(id);
 }
 
-BENCHMARK(ActivitiesFixture, ActivitiesByTeam, 10, 10)
+BENCHMARK(OptimizationFixture, Reoptimize, 10, 10)
 {
-    const char *route_id = "CA902292134DBC134EAF8363426BD247";
-    pRoute->get_team_activities(route_id);
+    const char *id = "c46648541ca5d716a31ffae6f405a37d";
+    int ret = pRoute->reoptimize(id);
 }
 
 int main()

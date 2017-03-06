@@ -2,3 +2,41 @@
 ADD_EXECUTABLE(ActivitiesBenchmark ActivitiesBenchmark.cpp)
 TARGET_LINK_LIBRARIES(ActivitiesBenchmark route4me)
 
+ADD_EXECUTABLE(OptimizationBenchmark OptimizationBenchmark.cpp)
+TARGET_LINK_LIBRARIES(OptimizationBenchmark route4me)
+
+ADD_EXECUTABLE(AddressBookBenchmark AddressBookBenchmark.cpp)
+TARGET_LINK_LIBRARIES(AddressBookBenchmark route4me)
+
+ADD_EXECUTABLE(ConfigBenchmark ConfigBenchmark.cpp)
+TARGET_LINK_LIBRARIES(ConfigBenchmark route4me)
+
+ADD_EXECUTABLE(GeocoderBenchmark GeocoderBenchmark.cpp)
+TARGET_LINK_LIBRARIES(GeocoderBenchmark route4me)
+
+ADD_EXECUTABLE(GPSBenchmark GPSBenchmark.cpp)
+TARGET_LINK_LIBRARIES(GPSBenchmark route4me)
+
+ADD_EXECUTABLE(NotesBenchmark NotesBenchmark.cpp)
+TARGET_LINK_LIBRARIES(NotesBenchmark route4me)
+
+ADD_EXECUTABLE(OrdersBenchmark OrdersBenchmark.cpp)
+TARGET_LINK_LIBRARIES(OrdersBenchmark route4me)
+
+ADD_EXECUTABLE(RoutesBenchmark RoutesBenchmark.cpp)
+TARGET_LINK_LIBRARIES(RoutesBenchmark route4me)
+
+ADD_EXECUTABLE(SessionBenchmark SessionBenchmark.cpp)
+TARGET_LINK_LIBRARIES(SessionBenchmark route4me)
+
+ADD_EXECUTABLE(StreetsBenchmark StreetsBenchmark.cpp)
+TARGET_LINK_LIBRARIES(StreetsBenchmark route4me)
+
+ADD_EXECUTABLE(TerritoriesBenchmark TerritoriesBenchmark.cpp)
+TARGET_LINK_LIBRARIES(TerritoriesBenchmark route4me)
+
+ADD_EXECUTABLE(TrackingBenchmark TrackingBenchmark.cpp)
+TARGET_LINK_LIBRARIES(TrackingBenchmark route4me)
+
+ADD_EXECUTABLE(UsersBenchmark UsersBenchmark.cpp)
+TARGET_LINK_LIBRARIES(UsersBenchmark route4me)

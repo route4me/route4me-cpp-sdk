@@ -5,15 +5,11 @@
 
 CRoute4Me* pRoute;
 
-BENCHMARK(ActivitiesFixture, ActivitiesTest, 10, 10)
+BENCHMARK(SessionFixture, Validate, 10, 10)
 {
-    pRoute->get_all_activities();
-}
-
-BENCHMARK(ActivitiesFixture, ActivitiesByTeam, 10, 10)
-{
-    const char *route_id = "CA902292134DBC134EAF8363426BD247";
-    pRoute->get_team_activities(route_id);
+    const char* session_id="4552222222";
+    const char* member_id="787544566";
+    int ret = pRoute->validate_session(session_id, member_id);
 }
 
 int main()

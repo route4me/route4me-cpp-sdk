@@ -5,15 +5,15 @@
 
 CRoute4Me* pRoute;
 
-BENCHMARK(ActivitiesFixture, ActivitiesTest, 10, 10)
+BENCHMARK(StreetsFixture, GetAllStreets, 10, 10)
 {
-    pRoute->get_all_activities();
+    pRoute->get_all_streets();
 }
 
-BENCHMARK(ActivitiesFixture, ActivitiesByTeam, 10, 10)
+BENCHMARK(StreetsFixture, GetOneStreet, 10, 10)
 {
-    const char *route_id = "CA902292134DBC134EAF8363426BD247";
-    pRoute->get_team_activities(route_id);
+    int seqno = 1;
+    int ret = pRoute->get_street_address(seqno);
 }
 
 int main()
