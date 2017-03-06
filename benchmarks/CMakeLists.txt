@@ -1,0 +1,4 @@
+
+ADD_EXECUTABLE(ActivitiesBenchmark ActivitiesBenchmark.cpp)
+TARGET_LINK_LIBRARIES(ActivitiesBenchmark route4me)
+

@@ -5,6 +5,10 @@ compiler:
 - gcc
 os:
 - linux
+before_install:
+- sudo apt-add-repository ppa:bruun/hayai
+- sudo apt-get update
+- sudo apt-get install libhayai-dev
 install:
 - CURRENT=`pwd`
 - sudo apt-get install libgtest-dev
