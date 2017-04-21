@@ -637,7 +637,6 @@ public:
     */
     int json_geocoding(Json::Value& body);
 
-    // TODO section:
     /**
      * \brief mark address as visited
      * \param route_id
@@ -646,10 +645,35 @@ public:
      * \param member
      * \return \c 0 if the response was successfully received, \c error code if an error occurred.
      */
-    int mark_address_visited(const char* route_id, const char* address_id, bool visited, int member_id);
+    int mark_address_visited(const char* route_id, const char* address_id, bool visited, int member_id, Json::Value& body);
 
-    int mark_address_departed(const char* route_id, const char* address_id, bool departed, int member_id);
+    /**
+     * \brief mark address as departed
+     * \param route_id
+     * \param address_id
+     * \param visited
+     * \param member
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int mark_address_departed(const char* route_id, const char* address_id, bool departed, int member_id, Json::Value& body);
 
+    /**
+     * \brief mark address as detected
+     * \param route_id
+     * \param address_id
+     * \param visited
+     * \param member
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int mark_address_detected(const char* route_id, const char* route_destination_id, Json::Value& body);
+
+    /**
+     * \brief get hybrid route
+     * \param target scheduled date
+     * \param timezone offset in minutes
+     * \return \c 0 if the response was successfully received, \c error code if an error occurred.
+     */
+    int get_hybrid_route(const char* target_date_string, int tz_offset);
 protected:
     bool validate(const Json::Value& v, const CRoute4Me::key2tp *p = 0, int n = 0, const char **required = 0, int rn = 0);
     bool request(CRoute4Me::ReqType method, const char *serviceURL, Json::Value& props, Json::Value& content, const char* altURL = NULL);
@@ -664,7 +688,7 @@ public:
     *R4_TERRITORY_HOST, *AUTHENTICATION_SERVICE, *REGISTRATION_SERVICE, *TRACKING_SERVICE, *LOCATION_SERVICE,
     *MERGE_SERVICE, *SHARE_SERVICE, *ADDRESS_VISITED_SERVICE, *GEOCODER, *STREET_SERVICE, *USER_LICENSE_SERVICE,
     *DEVICE_LICENSE_SERVICE, *USER_SERVICE, *VALIDATE_SESSION, *CONFIG_SERVICE, *VEHICLES_SERVICE,
-    *PREVIEW_SERVICE, *UPLOAD_SERVICE, *UPLOAD_GEOCODING, *JSON_GEOCODING;
+    *PREVIEW_SERVICE, *UPLOAD_SERVICE, *UPLOAD_GEOCODING, *JSON_GEOCODING, *DEPARTED_SERVICE, *HYBRID_SERVICE;
     static const char *Driving, *Walking, *Trucking; // TravelMode
     static const char *MI, *KM; // DistanceUnit
     static const char *Highways, *Tolls, *MinimizeHighways, *MinimizeTolls, *None; // Avoid
