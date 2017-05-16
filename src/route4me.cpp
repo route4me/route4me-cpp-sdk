@@ -13,38 +13,43 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constants
+const char *CRoute4Me::MAIN_HOST = "https://www.route4me.com/";
+const char *CRoute4Me::RAPID_HOST = "https://rapid.route4me.com/";
 
-const char *CRoute4Me::R4_API_HOST = "https://www.route4me.com/api.v4/optimization_problem.php";
-const char *CRoute4Me::R4_SHOW_ROUTE_HOST = "https://www.route4me.com/route4me.php";
-const char *CRoute4Me::R4_ROUTE_HOST = "https://www.route4me.com/api.v4/route.php";
-const char *CRoute4Me::R4_SET_GPS_HOST = "https://www.route4me.com/track/set.php";
-const char *CRoute4Me::R4_ADDRESS_HOST = "https://www.route4me.com/api.v4/address.php";
-const char *CRoute4Me::R4_DUPLICATE_ROUTE_HOST = "https://www.route4me.com/actions/duplicate_route.php";
-const char *CRoute4Me::R4_ADD_ROUTE_NOTES = "https://www.route4me.com/actions/addRouteNotes.php";
-const char *CRoute4Me::R4_ADDRESS_BOOK = "https://www.route4me.com/api.v4/address_book.php";
-const char *CRoute4Me::R4_AVOIDANCE_HOST = "https://www.route4me.com/api.v4/avoidance.php";
-const char *CRoute4Me::R4_ORDER_HOST = "https://www.route4me.com/api.v4/order.php";
-const char *CRoute4Me::R4_ACTIVITIES = "https://www.route4me.com/api/get_activities.php";
-const char *CRoute4Me::R4_USERS = "https://www.route4me.com/api/member/view_users.php";
-const char *CRoute4Me::R4_TERRITORY_HOST = "https://route4me.com/api.v4/territory.php";
-const char *CRoute4Me::AUTHENTICATION_SERVICE = "https://www.route4me.com/actions/authenticate.php";
-const char *CRoute4Me::REGISTRATION_SERVICE = "https://www.route4me.com/actions/register_action.php";
-const char *CRoute4Me::TRACKING_SERVICE = "https://route4me.com/api.v4/status.php";
-const char *CRoute4Me::LOCATION_SERVICE = "https://www.route4me.com/api/track/get_device_location.php";
-const char *CRoute4Me::MERGE_SERVICE = "https://www.route4me.com/actions/merge_routes.php";
-const char *CRoute4Me::SHARE_SERVICE = "https://www.route4me.com/actions/route/share_route.php";
-const char *CRoute4Me::ADDRESS_VISITED_SERVICE = "https://www.route4me.com/api/address/update_address_visited.php";
-const char *CRoute4Me::GEOCODER = "https://www.route4me.com/api/geocoder.php";
-const char *CRoute4Me::STREET_SERVICE = "https://rapid.route4me.com/street_data/";
-const char *CRoute4Me::USER_LICENSE_SERVICE = "https://www.route4me.com/api/member/user_license.php";
-const char *CRoute4Me::DEVICE_LICENSE_SERVICE = "https://www.route4me.com/api/device/verify_device_license.php";
-const char *CRoute4Me::USER_SERVICE = "https://www.route4me.com/api.v4/user.php";
-const char *CRoute4Me::VALIDATE_SESSION = "https://www.route4me.com/datafeed/session/validate_session.php";
-const char *CRoute4Me::CONFIG_SERVICE = "https://route4me.com/api.v4/configuration-settings.php";
-const char *CRoute4Me::VEHICLES_SERVICE = "https://www.route4me.com/api/vehicles/view_vehicles.php";
-const char *CRoute4Me::PREVIEW_SERVICE = "https://www.route4me.com/actions/upload/csv-xls-preview.php";
-const char *CRoute4Me::UPLOAD_SERVICE = "https://www.route4me.com/actions/upload/upload.php";
-const char *CRoute4Me::UPLOAD_GEOCODING = "https://www.route4me.com/actions/upload/csv-xls-geocode.php";
+const char *CRoute4Me::R4_API_HOST = "api.v4/optimization_problem.php";
+const char *CRoute4Me::R4_SHOW_ROUTE_HOST = "route4me.php";
+const char *CRoute4Me::R4_ROUTE_HOST = "api.v4/route.php";
+const char *CRoute4Me::R4_SET_GPS_HOST = "track/set.php";
+const char *CRoute4Me::R4_ADDRESS_HOST = "api.v4/address.php";
+const char *CRoute4Me::R4_DUPLICATE_ROUTE_HOST = "actions/duplicate_route.php";
+const char *CRoute4Me::R4_ADD_ROUTE_NOTES = "actions/addRouteNotes.php";
+const char *CRoute4Me::R4_ADDRESS_BOOK = "api.v4/address_book.php";
+const char *CRoute4Me::R4_AVOIDANCE_HOST = "api.v4/avoidance.php";
+const char *CRoute4Me::R4_ORDER_HOST = "api.v4/order.php";
+const char *CRoute4Me::R4_ACTIVITIES = "api/get_activities.php";
+const char *CRoute4Me::R4_USERS = "api/member/view_users.php";
+const char *CRoute4Me::R4_TERRITORY_HOST = "api.v4/territory.php";
+const char *CRoute4Me::AUTHENTICATION_SERVICE = "actions/authenticate.php";
+const char *CRoute4Me::REGISTRATION_SERVICE = "actions/register_action.php";
+const char *CRoute4Me::TRACKING_SERVICE = "api.v4/status.php";
+const char *CRoute4Me::LOCATION_SERVICE = "api/track/get_device_location.php";
+const char *CRoute4Me::MERGE_SERVICE = "actions/merge_routes.php";
+const char *CRoute4Me::SHARE_SERVICE = "actions/route/share_route.php";
+const char *CRoute4Me::ADDRESS_VISITED_SERVICE = "api/address/update_address_visited.php";
+const char *CRoute4Me::GEOCODER = "api/geocoder.php";
+const char *CRoute4Me::STREET_SERVICE = "street_data/";
+const char *CRoute4Me::USER_LICENSE_SERVICE = "api/member/user_license.php";
+const char *CRoute4Me::DEVICE_LICENSE_SERVICE = "api/device/verify_device_license.php";
+const char *CRoute4Me::USER_SERVICE = "api.v4/user.php";
+const char *CRoute4Me::VALIDATE_SESSION = "datafeed/session/validate_session.php";
+const char *CRoute4Me::CONFIG_SERVICE = "api.v4/configuration-settings.php";
+const char *CRoute4Me::VEHICLES_SERVICE = "api/vehicles/view_vehicles.php";
+const char *CRoute4Me::PREVIEW_SERVICE = "actions/upload/csv-xls-preview.php";
+const char *CRoute4Me::UPLOAD_SERVICE = "actions/upload/upload.php";
+const char *CRoute4Me::UPLOAD_GEOCODING = "actions/upload/csv-xls-geocode.php";
+const char *CRoute4Me::JSON_GEOCODING = "actions/upload/json-geocode.php";
+const char *CRoute4Me::DEPARTED_SERVICE = "api/route/mark_address_departed.php";
+const char *CRoute4Me::HYBRID_SERVICE = "api.v4/hybrid_date_optimization.php";
 
 const char *CRoute4Me::Driving = "Driving";
 const char *CRoute4Me::Walking = "Walking";
@@ -359,8 +364,41 @@ int CRoute4Me::remove_address_from_route(const char* route_id, const char* route
 
 int CRoute4Me::merge_routes(const char *route_ids, const char *depot_address, MapPoint point, bool remove_origin)
 {
-    //TODO: Implement missing functionality
-    return -1;
+    Json::Value props(Json::objectValue);
+
+    props["api_key"] = m_key;
+    struct curl_httppost *lastptr=NULL;
+
+    curl_formadd(&formpost,
+                   &lastptr,
+                   CURLFORM_COPYNAME, "route_ids",
+                   CURLFORM_COPYCONTENTS, route_ids,
+                   CURLFORM_END);
+
+    curl_formadd(&formpost,
+                  &lastptr,
+                  CURLFORM_COPYNAME, "depot_address",
+                  CURLFORM_COPYCONTENTS, depot_address,
+                  CURLFORM_END);
+
+    curl_formadd(&formpost,
+                 &lastptr,
+                 CURLFORM_COPYNAME, "depot_lat",
+                 CURLFORM_COPYCONTENTS, &point.lat,
+                 CURLFORM_END);
+
+    curl_formadd(&formpost,
+                 &lastptr,
+                 CURLFORM_COPYNAME, "depot_lng",
+                 CURLFORM_COPYCONTENTS, &point.lng,
+                 CURLFORM_END);
+
+
+    if (!validate(props))
+        return m_err_code;
+     Json::Value null;
+         request(CRoute4Me::REQ_POST, CRoute4Me::MERGE_SERVICE, props, null);
+    return m_err_code;
 }
 
 int CRoute4Me::share_routes(const char *route_id, const char *email, const char *format)
@@ -445,7 +483,7 @@ int CRoute4Me::update_address_book_contacts(const char* address_id, Json::Value 
     if (!validate(props)) {
         return m_err_code;
     }
-    request(CRoute4Me::REQ_GET, CRoute4Me::R4_ADDRESS_BOOK, props, body);
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ADDRESS_BOOK, props, body);
     return m_err_code;
 }
 
@@ -975,14 +1013,24 @@ int CRoute4Me::modify_member(Json::Value& body, ReqType method)
 
 int CRoute4Me::purchase_user_license(Json::Value &body)
 {
-    // TODO: Implement missing functionality
-    return -1;
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_POST, CRoute4Me::USER_LICENSE_SERVICE, props, body);
+    return m_err_code;
 }
 
 int CRoute4Me::purchase_device_license(Json::Value &body)
 {
-    // TODO: Implement missing functionality
-    return -1;
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_POST, CRoute4Me::DEVICE_LICENSE_SERVICE, props, body);
+    return m_err_code;
 }
 
 int CRoute4Me::asset_tracking(const char *id)
@@ -1067,7 +1115,7 @@ int CRoute4Me::get_street_address(int seqno)
     std::string url = std::string(CRoute4Me::STREET_SERVICE );
     append_url(url, seqno);
     Json::Value null;
-    request(CRoute4Me::REQ_GET, url.c_str(), props, null);
+    request(CRoute4Me::REQ_GET, url.c_str(), props, null, url.c_str());
     return m_err_code;
 }
 
@@ -1234,6 +1282,17 @@ int CRoute4Me::upload_geocoding(const char *id)
     return m_err_code;
 }
 
+int CRoute4Me::json_geocoding(Json::Value &body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    if (!validate(props)) {
+        return m_err_code;
+    }
+    request(CRoute4Me::REQ_POST, CRoute4Me::JSON_GEOCODING, props, body);
+    return m_err_code;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // CURL wrapper
 
@@ -1304,22 +1363,35 @@ static size_t read_http_resp(void *contents, size_t size, size_t nmemb, void *us
 {
     size_t realsize = size * nmemb;
     struct CRoute4Me::http_resp *mem = (struct CRoute4Me::http_resp *)userp;
-    mem->memory = (char*) std::realloc(mem->memory, mem->size + realsize + 1);
-    if(mem->memory == NULL) return 0;
+    char* upd_memory = (char*) std::realloc(mem->memory, mem->size + realsize + 1);
+    if(upd_memory == NULL)
+        return 0;
+    else
+        mem->memory = upd_memory;
     std::memcpy(&(mem->memory[mem->size]), contents, realsize);
     mem->size += realsize;
     mem->memory[mem->size] = 0;
     return realsize;
 }
 
-bool CRoute4Me::request(CRoute4Me::ReqType method, const char *url, Json::Value& props, Json::Value& content)
+bool CRoute4Me::request(CRoute4Me::ReqType method, const char *serviceURL, Json::Value& props, Json::Value& content,
+                        const char* altUrl)
 {
     long http_code = 0;
     std::string payload;
     struct CRoute4Me::http_resp chunk; // prepare buffer for lubcurl http response
     chunk.memory = (char*) malloc(1);
     chunk.size = 0;
-    std::string req = make_arg(m_curl, url, props); // prepare url with parameters
+    std::string url;
+    if (altUrl)
+    {
+        url = std::string(altUrl);
+    }
+    else
+    {
+        url = std::string(MAIN_HOST) + std::string(serviceURL);
+    }
+    std::string req = make_arg(m_curl, url.c_str(), props); // prepare url with parameters
     curl_easy_reset(m_curl);
     curl_easy_getinfo(m_curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_setopt(m_curl, CURLOPT_URL, req.c_str());
@@ -1499,4 +1571,57 @@ int CRoute4Me::get_address(const char* route_id, const char* dest_id)
     request(CRoute4Me::REQ_GET, CRoute4Me::R4_ROUTE_HOST, props, null);
     return m_err_code;
 }
+
+int CRoute4Me::mark_address_departed(const char *route_id, const char *address_id, bool departed, int member_id,
+                                     Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["address_id"] = address_id;
+    props["is_departed"] = departed;
+    props["member_id"] = member_id;
+
+    request(CRoute4Me::REQ_PUT, CRoute4Me::DEPARTED_SERVICE, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::mark_address_visited(const char *route_id, const char *address_id, bool visited, int member_id,
+                                    Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["address_id"] = address_id;
+    props["is_visited"] = visited;
+    props["member_id"] = member_id;
+
+    request(CRoute4Me::REQ_PUT, CRoute4Me::ADDRESS_VISITED_SERVICE, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::mark_address_detected(const char *route_id, const char *route_destination_id,
+                                     Json::Value& body)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["route_id"] = route_id;
+    props["route_destination_id"] = route_destination_id;
+
+    request(CRoute4Me::REQ_PUT, CRoute4Me::R4_ADDRESS_HOST, props, body);
+    return m_err_code;
+}
+
+int CRoute4Me::get_hybrid_route(const char *target_date_string, int tz_offset)
+{
+    Json::Value props(Json::objectValue);
+    props["api_key"] = m_key;
+    props["target_date_string"] = target_date_string;
+    props["timezone_offset_minutes"] = tz_offset;
+
+    Json::Value null;
+    request(CRoute4Me::REQ_GET, CRoute4Me::HYBRID_SERVICE, props, null);
+    return m_err_code;
+}
+
 ///////////////////////////////////////////////////////////////////////////////

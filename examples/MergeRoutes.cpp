@@ -12,7 +12,8 @@ int main()
 
     CRoute4Me route(KEY, true);
 
-    const char* route_ids="075594D31563C05ACCEBCAA77D026B2D,6AF79B603C1B6C5AAC714CDD76687CC6";
+    const char* route_ids="075594D31563C05ACCEBCAA77D026B2D";
+            //6AF79B603C1B6C5AAC714CDD76687CC6";
     const char* depot_address="11921 N Dickinson Dr, Fredericksburg, VA 22407, USA";
 
     MapPoint point;
