@@ -1,11 +1,26 @@
 
-sudo: false
+sudo: true
 language: cpp
 compiler:
 - gcc
 os:
 - linux
+before_install:
+- sudo apt-add-repository ppa:bruun/hayai -y
+- sudo apt-get update
+- sudo apt-get install libhayai-dev
+install:
+- CURRENT=`pwd`
+- sudo apt-get install libgtest-dev
+- cd /usr/src/gtest
+- sudo cmake CMakeLists.txt
+- sudo make
+- sudo cp *.a /usr/lib
+- cd $CURRENT
+#before_script:
+#- sudo apt-get install valgrind
 script:
 - cmake .
 - make all
+- cd test && ctest .
 

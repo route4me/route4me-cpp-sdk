@@ -14,7 +14,7 @@ int main()
     // global init
     CRoute4Me::init();
 
-    CRoute4Me route(KEY);
+    CRoute4Me route(KEY, true);
     Json::Value params(Json::objectValue);
     params["route_id"] = "AC16E7D338B551013FF34266FE81A5EE";
     params["format"] = CRoute4Me::Csv;

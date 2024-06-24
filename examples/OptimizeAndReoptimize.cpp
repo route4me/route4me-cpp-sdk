@@ -22,7 +22,7 @@ int main()
     // global init
     CRoute4Me::init();
 
-    CRoute4Me route(KEY);
+    CRoute4Me route(KEY, true);
     Json::Value params(Json::objectValue);
     params["route_name"] = "Single Driver Round Trip";
     params["algorithm_type"] = CRoute4Me::TSP;
